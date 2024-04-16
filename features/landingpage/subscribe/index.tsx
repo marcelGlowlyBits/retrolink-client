@@ -12,13 +12,22 @@ export const SubscribeBlock = () => {
 							<Text weight="medium" align="center" size="5">Schrijf je in voor de nieuwsbrief en wij houden je op de hoogte. De nieuwste ontwikkelingen van Retrolink, zo in je mailbox.</Text>
 						</Box>
 						<Box>
-							<form name="emaillist" method="POST" data-netlify="true">
-								<Flex direction="column" gap="4">
-									<label>Je voornaam: <input required type="text" name="name" /></label>
-									<label>Je email adres: <input required type="email" name="email" /></label>
-									<Button mt="4" type="submit" variant="solid" size="4" style={{ maxWidth: "fit-content"}}>Meld je aan</Button>
-								</Flex>
-							</form>
+						
+
+						<form name="emaillist" method="POST" data-netlify="true">
+  <p>
+    <label>Your Name: <input type="text" name="name" /></label>
+  </p>
+  <p>
+    <label>Your Email: <input type="email" name="email" /></label>
+  </p>
+  <p>
+    <button type="submit">Send</button>
+  </p>
+</form>
+
+
+
 						</Box>    
 					</Flex>
 				</Section>
