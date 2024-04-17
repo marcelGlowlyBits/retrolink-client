@@ -1,8 +1,14 @@
+import { cookies } from 'next/headers';
+
 import { Box, Section, Heading, Container, Text, Flex } from '@radix-ui/themes';
 import { Fjalla } from '@/common/utils/fonts';
 import { SubscriptionForm } from '../subscriptionform';
 
 export const SubscribeBlock = () => {
+		const cookieStore = cookies();
+		const cookie = cookieStore.get('mailingListRetroLinkStatus');
+		const isSubscribed = Boolean(cookie && cookie.value === 'subscribed');
+
 		return (
 		<Container size="4" minHeight="600px">
 			<Box py="9">
@@ -13,7 +19,7 @@ export const SubscribeBlock = () => {
 							<Text weight="medium" align="center" size="5">Schrijf je in voor de nieuwsbrief en wij houden je op de hoogte. De nieuwste ontwikkelingen van Retrolink, zo in je mailbox.</Text>
 						</Box>
 						<Box>
-						<SubscriptionForm />
+						<SubscriptionForm isSubscribed={isSubscribed} />
 						</Box>    
 					</Flex>
 				</Section>
