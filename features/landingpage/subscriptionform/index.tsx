@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { revalidatePath } from 'next/cache'
 import { z } from "zod";
 import { useFormStatus } from "react-dom";
@@ -19,8 +20,9 @@ export const subscriptionFormSchema = z.object({
     email: z.string().email()
   });
 
-export const SubscriptionForm = ({ isSubscribed }: {isSubscribed: boolean}) => {
+export const SubscriptionForm = () => {
     const { pending } = useFormStatus();
+    const [isSubscribed, setIsSubscribed] = useState(false);
     
     const { register, formState: { errors, isValid, isLoading }, } = useForm<FormValues>({
         resolver: zodResolver(subscriptionFormSchema),
@@ -35,7 +37,7 @@ export const SubscriptionForm = ({ isSubscribed }: {isSubscribed: boolean}) => {
 
        if (response.success) {
         alert('Je bent ingeschreven voor de nieuwsbrief!');
-        revalidatePath('/');
+        setIsSubscribed(true);
     
        } else {
         alert('There was an error subscribing you to the newsletter. Please try again later.');

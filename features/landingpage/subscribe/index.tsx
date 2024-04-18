@@ -7,10 +7,6 @@ import { TrackView } from '@loglib/tracker/react';
 import { SubscriptionForm } from '../subscriptionform';
 
 export const SubscribeBlock = () => {
-		const cookieStore = cookies();
-		const cookie = cookieStore.get('mailingListRetroLinkStatus');
-		const isSubscribed = Boolean(cookie && cookie.value === 'subscribed');
-
 		return (
 		<TrackView name="subscribeblock" payload={{ trackedView: "subscribeblock" }}> 
 			<Container size="4" minHeight="600px">
@@ -22,7 +18,7 @@ export const SubscribeBlock = () => {
 								<Text weight="medium" align="center" size="5">Schrijf je in voor de nieuwsbrief en wij houden je op de hoogte. De nieuwste ontwikkelingen van Retrolink, zo in je mailbox.</Text>
 							</Box>
 							<Box>
-							<SubscriptionForm isSubscribed={isSubscribed} />
+							<SubscriptionForm />
 							</Box>    
 						</Flex>
 					</Section>
