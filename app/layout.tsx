@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Fjalla_One } from "next/font/google";
 import { Theme } from '@radix-ui/themes';
-
-
-const Fjalla = Fjalla_One({ weight: "400", style: 'normal', subsets: ['latin'] });
+import Loglib from "@loglib/tracker/react";
 
 import { GeistSans } from 'geist/font/sans';
 import '@radix-ui/themes/styles.css';
@@ -21,6 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
         <body>
+          <Loglib
+            config={{
+              id: "www_retrolink",
+              consent: "granted",
+            }}
+          />
           <Theme
             accentColor="tomato"
             grayColor="gray"
@@ -32,11 +36,10 @@ export default function RootLayout({
             <main
              className={GeistSans.className}
             >
-           
               {children}
             </main>
           </Theme>
-        </body>    
+        </body> 
     </html>
   );
 }
