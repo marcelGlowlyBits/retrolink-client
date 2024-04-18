@@ -10,8 +10,8 @@ import RetrolinkLogo from '../../../public/images/logo.png';
 
 export const HeroHeader = () => {
     return (
-        <Container size="4" minHeight="450px">
-            <Box p="9">
+        <Container size="2">
+            <Box p={{ initial: '2', md: '9'}}>
                 <Flex direction="column" justify="center">
             <Image
                 src={RetrolinkLogo}
