@@ -6,6 +6,7 @@ import { z } from "zod";
 import { useFormStatus } from "react-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Flex } from '@radix-ui/themes';
+import { TrackClick } from '@loglib/tracker/react';
 
 import { Input } from '@/common/form/Input';
 
@@ -57,8 +58,10 @@ export const SubscriptionForm = ({ isSubscribed }: {isSubscribed: boolean}) => {
                     type="email"
                     placeholder="Je email adres"
                     {...register('email')}
-                />                
-                <Button size="4" mt="4" disabled={pending || !isValid || isSubscribed} loading={pending || isLoading} type="submit">Schrijf in voor nieuwsbrief</Button>
+                />
+                <TrackClick name="subscriptionformsignup" payload={{ trackedClick: "subscriptionformsignup"}}>
+                  <Button size="4" mt="4" disabled={pending || !isValid || isSubscribed} loading={pending || isLoading} type="submit">Schrijf in voor nieuwsbrief</Button>
+                </TrackClick>         
             </Flex>
       </form>
     )
