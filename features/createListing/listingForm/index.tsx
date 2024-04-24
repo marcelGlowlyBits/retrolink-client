@@ -1,110 +1,52 @@
 "use client";
-import { z } from "zod";
-import { useForm, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import { zodResolver } from "@hookform/resolvers/zod";
+import { MdEuroSymbol } from "react-icons/md";
 
-// form components
 import { Input } from '@/common/form/Input';
 import { Select } from '@/common/form/Select';
+import { Textarea } from '@/common/form/TextArea';
 import { Button, Flex } from '@radix-ui/themes';
+import { PlatformOptions } from "@/common/utils/platformOptions";
+import { CategoryOptions } from "@/common/utils/categoryOptions";
+import { ConditionOptions } from '@/common/utils/conditionOptions';
+import { useZodForm } from "@/common/hooks/useZodForm";
 
 import { listingFormSchema } from './schema';
 
-const CategoryOptions = [
-    { name: "Games", value: "GAMES" },
-    { name: "Consoles", value: "CONSOLES" },
-    { name: "Accessoires", value: "ACCESSOIRES" },
-    { name: "Overig", value: "OTHER" },
-]
-
-const ConditionOptions = [
-    { name: "Nieuw", value: "NEW" },
-    { name: "Zo goed als nieuw", value: "GOODASNEW" },
-    { name: "Gebruikt", value: "USED" },
-]
-
-const PlatformOptions = [
-    { name: "Playstation 1", value: "PLAYSTATION1" },
-    { name: "Playstation 2", value: "PLAYSTATION2" },
-    { name: "Playstation 3", value: "PLAYSTATION3" },
-    { name: "Playstation 4", value: "PLAYSTATION4" },
-    { name: "Playstation 5", value: "PLAYSTATION5" },
-    { name: "Xbox classic", value: "XBOXCLASSIC" },
-    { name: "Xbox 360", value: "XBOX360" },
-    { name: "Xbox One", value: "XBOXONE" },
-    { name: "NES", value: "NES" },
-    { name: "Super Nintendo", value: "SNES" },
-    { name: "Gameboy", value: "GAMEBOYCLASSIC" },
-    { name: "Gameboy Advance", value: "GAMEBOYADVANCE" },
-    { name: "Nintendo 64", value: "NINTENDO64" },
-    { name: "Gamecube", value: "GAMECUBE" },
-    { name: "Wii", value: "WII" },
-    { name: "Wii U", value: "WIIU" },
-    { name: "Switch", value: "SWITCH" },
-    { name: "PC", value: "PC" },
-    { name: "Overig", value: "OTHER" },
-];
-
 export const CreateListingForm = () => {
     const createListing = useMutation(api.listings.createListing);
-    type FormValues = z.infer<typeof listingFormSchema>;
 
-    const { watch, register, handleSubmit, control, formState: { errors, isValid }, } = useForm<FormValues>({
-        resolver: zodResolver(listingFormSchema),
-        defaultValues: {
-          title: "",
-          description: "",
-          price: 10,
-          category: 'OTHER',
-          condition: 'USED',
-          platform: 'OTHER',
-        },
-    });
+    const form = useZodForm(listingFormSchema, {});
 
-    const onSubmit = (data: any) => console.log('data', data);
-    const values = watch();
+    const onSubmit = async (data: any) => {
+        await createListing(data)
+            .then(() => {
+                alert('Advertentie succesvol aangemaakt.')
+                form.reset();
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    }
 
-    console.log('values', values);
-    console.log('errors', errors);
-    console.log('isVLaid', isValid);
+    // For now, we show an html alert when the creation of a listing is successful.
+    // In the future, we will redirect the user to the newly created listing. With a seperate callout component.
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
             <Flex direction="column" gap="4">
                 <Input
-                    errors={errors.title}
+                    errors={form.formState.errors.title}
                     label="Naam van het product."
                     type="text"
                     placeholder="Beschrijf het product met een simpele titel"
-                    {...register('title')}
+                    {...form.register('title')}
                 />
-                <Controller
-                    name="price"
-                    control={control}
-                    render={({ field }) => (
-                        <Input
-                            {...field}
-                            defaultValue={field.value}
-                            label="Vraagprijs voor het product."
-                            type="number"
-                            placeholder="Vraagprijs voor het product."
-                            onChange={(e: any) => field.onChange(parseInt(e.target.value))}
-                        />
-                    )}
-                />
-                <Input
-                    errors={errors.description}
-                    label="Beschrijving van het product."
-                    type="text"
-                    placeholder="Geef een korte omschrijving van het product."
-                    {...register('description')}
-                />
-                {/* HOE VOEG IK HIER VALIDATIE AAN TOE? */}
-                <Controller
+                   <Controller
                     name="category"
-                    control={control}
+                    control={form.control}
                     render={({ field }) => (
                         <Select
                         {...field}
@@ -116,7 +58,7 @@ export const CreateListingForm = () => {
                     />
                 <Controller
                     name="condition"
-                    control={control}
+                    control={form.control}
                     render={({ field }) => (
                     <Select
                         {...field}
@@ -128,7 +70,7 @@ export const CreateListingForm = () => {
                 />
                    <Controller
                     name="platform"
-                    control={control}
+                    control={form.control}
                     render={({ field }) => (
                     <Select
                         {...field}
@@ -138,7 +80,26 @@ export const CreateListingForm = () => {
                     />
                     )}
                 />
-                <Button size="4" mt="4" disabled={!isValid} type="submit">Maak advertentie aan.</Button>
+                <Input 
+                    errors={form.formState.errors.price}
+                    label="Vraagprijs van het product"
+                    type="number"
+                    icon={<MdEuroSymbol />}
+                    placeholder="Vraagprijs van het product in euro's"
+                    {...form.register('price', {
+                        setValueAs: (value) => parseInt(value || 0)
+                    })}
+                />
+                <Textarea
+                    errors={form.formState.errors.description}
+                    label="Beschrijving van het product."
+                    type="text"
+                    placeholder="Geef een korte omschrijving van het product."
+                    {...form.register('description')}
+                />
+             
+            
+                <Button size="4" mt="4" disabled={!form.formState.isValid} type="submit">Maak advertentie aan.</Button>
             </Flex>
         </form>
     )
