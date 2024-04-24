@@ -3,7 +3,7 @@ import { Flex, Text, TextField } from '@radix-ui/themes';
 
 // eslint-disable-next-line react/display-name
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ onChange, onBlur, name, placeholder, errors, type, disabled, description, label, defaultValue }, ref) => (
+  ({ onChange, onBlur, name, placeholder, errors, type, disabled, description, label, defaultValue, icon }, ref) => (
     <Flex
       direction="column"
       gap="2"
@@ -21,7 +21,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           onBlur={onBlur}
           disabled={disabled}
           defaultValue={defaultValue}
-          >
+        >
+          {icon && (
+            <TextField.Slot>
+              {icon}
+            </TextField.Slot>
+          )}
       </TextField.Root>
       {description && (
         <Text
@@ -39,8 +44,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ),
 );
 
+import { ReactNode } from 'react';
+
 type InputProps = {
   description: string;
   label: string;
   defaultValue?: string | number;
+  icon: ReactNode;
 } & ReturnType<any>;

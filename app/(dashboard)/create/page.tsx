@@ -5,7 +5,7 @@ import { CreateListingForm } from '@/features/createListing';
 
 export default function CreateListing() {
     return (
-        <Box style={{ backgroundColor: 'var(--gray-a2)' }} height="100%">
+        <Box style={{ backgroundColor: 'var(--gray-a2)' }} height="100vh">
             <Section p="9">
             <Container>
             <Box p="5" style={{ backgroundColor: 'white', borderRadius: 'var(--radius-3)', boxShadow: 'var(--shadow-3'}}>

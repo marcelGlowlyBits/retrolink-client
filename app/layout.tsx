@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Theme } from '@radix-ui/themes';
 import Loglib from "@loglib/tracker/react";
-import ConvexClientProvider from "../providers/ConvexClientProvider";
+
+import MainProvider from '../providers/MainProvider';
 import "./globals.css"
 
 import { GeistSans } from 'geist/font/sans';
@@ -19,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
         <body>
-          <ConvexClientProvider>
+          <MainProvider>
             <Loglib
               config={{
                 id: "www_retrolink",
@@ -40,7 +41,7 @@ export default function RootLayout({
                 {children}
               </main>
             </Theme>
-          </ConvexClientProvider>
+          </MainProvider>
         </body> 
     </html>
   );
