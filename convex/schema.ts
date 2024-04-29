@@ -10,4 +10,12 @@ export default defineSchema({
     condition: v.string(),
     platform: v.string(),
   }),
+  users: defineTable({
+    userId: v.string(),
+    email: v.string(),
+    username: v.optional(v.string()),
+    image_url: v.optional(v.string()),
+  })
+  .index("by_userId", ["userId"])
 });
+

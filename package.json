@@ -10,6 +10,8 @@
     "deploy:convex": "npx convex deploy"
   },
   "dependencies": {
+    "convex-helpers": "^0.1.14",
+    "@clerk/clerk-sdk-node": "^4.13.7",
     "@clerk/clerk-react": "^4.28.2",
     "@clerk/nextjs": "^5.0.1",
     "@xixixao/uploadstuff": "^0.0.5",
@@ -25,7 +27,8 @@
     "react-hook-form": "^7.51.3",
     "react-icons": "^5.1.0",
     "resend": "^3.2.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "svix": "^1.21.0"
   },
   "devDependencies": {
     "@types/node": "^20",
