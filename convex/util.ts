@@ -1,13 +1,21 @@
 import {
   MutationCtx,
   QueryCtx,
+  mutation,
 } from "./_generated/server";
 import {
   customQuery,
   customCtx,
+  customMutation,
+
 } from "convex-helpers/server/customFunctions";
 import { query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
+
+export const authMutation = customMutation(
+  mutation,
+  customCtx(async (ctx) => ({ user: await getUserOrThrow(ctx) }))
+);
 
 export const authQuery = customQuery(
     query,

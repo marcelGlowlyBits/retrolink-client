@@ -10,10 +10,10 @@ import { ProfileAccountData } from '@/features/profileOverview/profileAccountDat
 
 export default function ProfilePage() {
     const params = useParams<{ userId: Id<"users"> }>().userId;
-    
+
     return (
-        <Box style={{ backgroundColor: 'var(--gray-a2)' }} height="100%">
-        <Section p="9">
+        <Box style={{ backgroundColor: 'var(--gray-a2)' }} height="100vh">
+        <Section p={{ initial: '5', sm: '9'}}>
             <Container>
                 <Box p="5">
                     <Heading mb="5" className={Fjalla.className} size="7" as="h1">Profiel</Heading> 
