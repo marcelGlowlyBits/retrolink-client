@@ -23,6 +23,9 @@ export const CreateListingForm = () => {
     const onSubmit = async (data: any) => {
         await createListing(data)
             .then(() => {
+                // @TODO: 
+                // - redirect to the newly created listing
+                // - show a success toast message
                 alert('Advertentie succesvol aangemaakt.')
                 form.reset();
             })
@@ -30,9 +33,6 @@ export const CreateListingForm = () => {
                 console.error(error)
             })
     }
-
-    // For now, we show an html alert when the creation of a listing is successful.
-    // In the future, we will redirect the user to the newly created listing. With a seperate callout component.
 
     return (
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -97,8 +97,6 @@ export const CreateListingForm = () => {
                     placeholder="Geef een korte omschrijving van het product."
                     {...form.register('description')}
                 />
-             
-            
                 <Button size="4" mt="4" disabled={!form.formState.isValid} type="submit">Maak advertentie aan.</Button>
             </Flex>
         </form>

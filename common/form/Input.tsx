@@ -12,7 +12,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       {label && <Text>{label}</Text>}
       <TextField.Root
           variant="surface"
-          size="3"
+          size="2"
           type={type}
           name={name}
           ref={ref}

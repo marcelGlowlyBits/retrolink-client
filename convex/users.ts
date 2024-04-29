@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 
-import { authQuery } from "./util";
+import { authQuery, authMutation } from "./util";
 import { internalMutation, query } from "./_generated/server";
 
 export const createUser = internalMutation({
@@ -31,6 +31,15 @@ export const createUser = internalMutation({
     args: {},
     async handler(ctx, args) {
       return ctx.user;
+    },
+  });
+
+  export const updateMyUser = authMutation({
+    args: { username: v.string() },
+    async handler(ctx, args) {
+      await ctx.db.patch(ctx.user._id, {
+        username: args.username,
+      });
     },
   });
 
