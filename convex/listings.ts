@@ -11,6 +11,7 @@ export const createListing = mutation({
     platform: v.string(),
     hasDamage: v.boolean(),
     damageDescription: v.optional(v.string()),
+    payForShipping: v.string(),
   },
   handler: async (ctx, args) => {
     await ctx.db.insert("listings", {
@@ -22,6 +23,7 @@ export const createListing = mutation({
       platform: args.platform,
       damageDescription: args.damageDescription,
       hasDamage: args.hasDamage,
+      payForShipping: args.payForShipping,
     });
   },
 });
