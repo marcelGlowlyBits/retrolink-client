@@ -43,6 +43,7 @@ export const listingFormSchema = z.object({
     "OTHER",
   ]),
   hasDamage: z.boolean(),
+  payForShipping: z.enum(["SELLER", "BUYER"]),
   damageDescription: z
     .string()
     .min(8, "Schadebeschrijving moet minimaal 8 karakters lang zijn.")

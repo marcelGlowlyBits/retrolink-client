@@ -29,6 +29,7 @@ export const CreateListingForm = () => {
       price: 0,
       description: "",
       hasDamage: false,
+      payForShipping: "SELLER",
     },
   });
 
@@ -134,7 +135,6 @@ export const CreateListingForm = () => {
             />
           )}
         />
-
         {hasDamageCheck ? (
           <Textarea
             errors={form.formState.errors.damageDescription}
@@ -144,6 +144,22 @@ export const CreateListingForm = () => {
             {...form.register("damageDescription")}
           />
         ) : null}
+
+        <Controller
+          name='payForShipping'
+          control={form.control}
+          render={({ field }) => (
+            <RadioGroup
+              {...field}
+              label='Wie betaalt de verzendkosten?'
+              defaultValue={form.formState.defaultValues!.payForShipping}
+              items={[
+                { label: "Verkoper", value: "SELLER" },
+                { label: "Koper", value: "BUYER" },
+              ]}
+            />
+          )}
+        />
 
         <Button
           size='4'
