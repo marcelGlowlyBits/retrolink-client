@@ -29,11 +29,12 @@ export const CreateListingForm = () => {
       price: 0,
       description: "",
       hasDamage: false,
-      payForShipping: "SELLER",
+      preferenceOfShipping: "PICKUP",
     },
   });
 
   const hasDamageCheck = form.watch("hasDamage");
+  const canBeShipped = form.watch("preferenceOfShipping");
 
   React.useEffect(() => {
     if (hasDamageCheck) {
@@ -42,6 +43,14 @@ export const CreateListingForm = () => {
       form.unregister("damageDescription");
     }
   }, [form, form.register, form.unregister, hasDamageCheck]);
+
+  React.useEffect(() => {
+    if (canBeShipped === "SEND" || canBeShipped === "BOTH") {
+      form.register("payForShipping");
+    } else {
+      form.unregister("payForShipping");
+    }
+  }, [form, form.register, form.unregister, canBeShipped]);
 
   const onSubmit = async (data: any) => {
     await createListing(data)
@@ -59,7 +68,7 @@ export const CreateListingForm = () => {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)}>
-      <Flex direction='column' gap='4'>
+      <Flex direction='column' gap='5'>
         <Input
           errors={form.formState.errors.title}
           label='Naam van het product.'
@@ -146,20 +155,48 @@ export const CreateListingForm = () => {
         ) : null}
 
         <Controller
-          name='payForShipping'
+          name='preferenceOfShipping'
           control={form.control}
           render={({ field }) => (
             <RadioGroup
               {...field}
-              label='Wie betaalt de verzendkosten?'
+              label='Voorkeur van verzending/afhalen'
               defaultValue={form.formState.defaultValues!.payForShipping}
               items={[
-                { label: "Verkoper", value: "SELLER" },
-                { label: "Koper", value: "BUYER" },
+                {
+                  label: "Koper moet het product komen ophalen.",
+                  value: "PICKUP",
+                },
+                {
+                  label: "Product wordt verzonden naar de koper.",
+                  value: "SEND",
+                },
+                {
+                  label: "Ophalen en verzenden is beide mogelijk.",
+                  value: "BOTH",
+                },
               ]}
             />
           )}
         />
+
+        {canBeShipped === "SEND" || canBeShipped === "BOTH" ? (
+          <Controller
+            name='payForShipping'
+            control={form.control}
+            render={({ field }) => (
+              <RadioGroup
+                {...field}
+                label='Wie betaalt de verzendkosten?'
+                defaultValue={form.formState.defaultValues!.payForShipping}
+                items={[
+                  { label: "Verkoper", value: "SELLER" },
+                  { label: "Koper", value: "BUYER" },
+                ]}
+              />
+            )}
+          />
+        ) : null}
 
         <Button
           size='4'
