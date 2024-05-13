@@ -11,7 +11,8 @@ export default defineSchema({
     platform: v.string(),
     hasDamage: v.boolean(),
     damageDescription: v.optional(v.string()),
-    payForShipping: v.string(),
+    preferenceOfShipping: v.string(),
+    payForShipping: v.optional(v.string()),
   }),
   users: defineTable({
     userId: v.string(),

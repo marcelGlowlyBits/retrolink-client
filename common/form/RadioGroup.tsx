@@ -15,11 +15,13 @@ export const RadioGroup = React.forwardRef<any, any>(
         onValueChange={onChange}
         ref={ref}
       >
-        {items.map((item: any) => (
-          <PrimitiveRadioGroup.Item value={item.value} key={item.value}>
-            {item.label}
-          </PrimitiveRadioGroup.Item>
-        ))}
+        <Flex gap='3' direction='column'>
+          {items.map((item: any) => (
+            <PrimitiveRadioGroup.Item value={item.value} key={item.value}>
+              {item.label}
+            </PrimitiveRadioGroup.Item>
+          ))}
+        </Flex>
       </PrimitiveRadioGroup.Root>
     </Flex>
   ),
