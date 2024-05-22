@@ -37,3 +37,13 @@ export const getListings = query({
     return await ctx.db.query("listings").collect();
   },
 });
+
+export const getListingsPerUser = query({
+  args: { userId: v.string() },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("listings")
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .collect();
+  },
+});
