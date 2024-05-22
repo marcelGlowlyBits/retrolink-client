@@ -7,7 +7,6 @@ import "./globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import "@radix-ui/themes/styles.css";
-import "@xixixao/uploadstuff/react/styles.css";
 
 export const metadata: Metadata = {
   title: "Retrolink",

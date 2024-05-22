@@ -1,11 +1,13 @@
 "use client";
 import * as React from "react";
 import { Controller } from "react-hook-form";
+
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { MdEuroSymbol } from "react-icons/md";
-import { UploadButton, UploadFileResponse } from "@xixixao/uploadstuff/react";
-import { Container, Progress } from "@radix-ui/themes";
+import { MdEuroSymbol, MdClose } from "react-icons/md";
+import { Text, Section } from "@radix-ui/themes";
+import Image from "next/image";
+import Dropzone from "react-dropzone";
 
 import { Input } from "@/common/form/Input";
 import { Select } from "@/common/form/Select";
@@ -21,10 +23,9 @@ import { listingFormSchema } from "./schema";
 import styles from "./styles.module.css";
 
 export const CreateListingForm = () => {
-  const [image, setImage] = React.useState("");
-  const [progressValue, setProgressValue] = React.useState(0);
-  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const createListing = useMutation(api.listings.createListing);
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const [images, setImages] = React.useState<File[]>([]);
 
   const form = useZodForm(listingFormSchema, {
     defaultValues: {
@@ -58,17 +59,35 @@ export const CreateListingForm = () => {
     }
   }, [form, form.register, form.unregister, canBeShipped]);
 
+  const uploadImages = async () => {
+    const promises = images.map(async (image) => {
+      const uploadUrl = await generateUploadUrl();
+
+      const response = await fetch(uploadUrl, {
+        method: "POST",
+        headers: { "Content-Type": image!.type },
+        body: image,
+      });
+
+      const data = await response.json();
+      console.log(data);
+      return data.storageId;
+    });
+
+    return await Promise.all(promises);
+  };
+
   const onSubmit = async (data: any) => {
-    await createListing(data)
+    console.log("halo", data);
+    await uploadImages()
+      .then((storageIds) => {
+        data.images = storageIds;
+
+        return createListing(data);
+      })
       .then(() => {
-        // @TODO:
-        // - redirect to the newly created listing
-        // - show a success toast message
         alert("Advertentie succesvol aangemaakt.");
         form.reset();
-      })
-      .catch((error) => {
-        console.error(error);
       });
   };
 
@@ -76,30 +95,50 @@ export const CreateListingForm = () => {
     <>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Flex direction='column' gap='5'>
-          <Container mt={"9"}>
-            <Progress size='2' value={progressValue} />
-            <UploadButton
-              uploadUrl={generateUploadUrl}
-              className={() => styles.uploadButton}
-              fileTypes={["image/*"]}
-              multiple={false}
-              content={(progress) =>
-                progress === null || progress === 0
-                  ? `Upload foto`
-                  : "Uploading..."
+          <Dropzone
+            onDrop={(acceptedFiles) => {
+              if (acceptedFiles.length >= 3) {
+                return null;
               }
-              onUploadComplete={async (uploaded: UploadFileResponse[]) => {
-                setImage((uploaded[0].response as any).storageId);
-              }}
-              onUploadProgress={(progress: number) => {
-                setProgressValue(progress);
-              }}
-              onUploadError={(error: unknown) => {
-                // Do something with the error.
-                console.log("error", error);
-              }}
-            />
-          </Container>
+
+              setImages([...images, ...acceptedFiles]);
+            }}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <section className={styles.dropzone}>
+                <Section {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <Text>
+                    Drag and drop afbeeldingen hier, of klik om afbeeldingen te
+                    selecteren.
+                  </Text>
+                </Section>
+              </section>
+            )}
+          </Dropzone>
+          <Flex direction='row' gap='5'>
+            {images.length > 0 &&
+              images.map((image, index) => (
+                <Flex direction='row' gap='5' key={index}>
+                  <Image
+                    src={URL.createObjectURL(image)}
+                    width={200}
+                    height={200}
+                    alt='ja tis goed'
+                  />
+                  <Button
+                    size='2'
+                    onClick={() => {
+                      const newImages = [...images];
+                      newImages.splice(index, 1);
+                      setImages(newImages);
+                    }}
+                  >
+                    <MdClose />
+                  </Button>
+                </Flex>
+              ))}
+          </Flex>
 
           <Input
             errors={form.formState.errors.title}
@@ -233,7 +272,7 @@ export const CreateListingForm = () => {
           <Button
             size='4'
             mt='4'
-            // disabled={!form.formState.isValid}
+            disabled={!form.formState.isValid}
             type='submit'
           >
             Maak advertentie aan.

@@ -1,9 +1,9 @@
-import { Box, Heading, Container, Section } from "@radix-ui/themes";
+import * as React from "react";
+
 import { Fjalla } from "@/common/utils/fonts";
+import { Box, Heading, Container, Section } from "@radix-ui/themes";
 
-import { CreateListingForm } from "@/features/createListing";
-
-export default function CreateListing() {
+export default function LoginPage() {
   return (
     <Box style={{ backgroundColor: "var(--gray-a2)" }} height='100%'>
       <Section p='9'>
@@ -16,10 +16,10 @@ export default function CreateListing() {
               boxShadow: "var(--shadow-3",
             }}
           >
-            <Heading mb='5' className={Fjalla.className} size='7' as='h1'>
-              Advertentie aanmaken
+            <Heading className={Fjalla.className} mb='5' size='7' as='h1'>
+              Inloggen
             </Heading>
-            <CreateListingForm />
+            {/* Login form will be added here */}
           </Box>
         </Container>
       </Section>

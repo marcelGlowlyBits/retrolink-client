@@ -13,6 +13,7 @@ export const createListing = mutation({
     damageDescription: v.optional(v.string()),
     preferenceOfShipping: v.string(),
     payForShipping: v.optional(v.string()),
+    images: v.array(v.id("_storage")),
   },
   handler: async (ctx, args) => {
     await ctx.db.insert("listings", {
@@ -26,6 +27,7 @@ export const createListing = mutation({
       damageDescription: args.damageDescription,
       preferenceOfShipping: args.preferenceOfShipping,
       payForShipping: args.payForShipping,
+      images: args.images,
     });
   },
 });
