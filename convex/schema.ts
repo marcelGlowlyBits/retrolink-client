@@ -13,6 +13,7 @@ export default defineSchema({
     damageDescription: v.optional(v.string()),
     preferenceOfShipping: v.string(),
     payForShipping: v.optional(v.string()),
+    images: v.array(v.id("_storage")),
   }),
   users: defineTable({
     userId: v.string(),
