@@ -78,7 +78,6 @@ export const CreateListingForm = () => {
   };
 
   const onSubmit = async (data: any) => {
-    console.log("halo", data);
     await uploadImages()
       .then((storageIds) => {
         data.images = storageIds;
@@ -96,11 +95,11 @@ export const CreateListingForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Flex direction='column' gap='5'>
           <Dropzone
+            minSize={0}
+            maxSize={5242880}
+            maxFiles={3}
+            accept={{ "image/jpeg": [], "image/png": [], "image/webp": [] }}
             onDrop={(acceptedFiles) => {
-              if (acceptedFiles.length >= 3) {
-                return null;
-              }
-
               setImages([...images, ...acceptedFiles]);
             }}
           >
