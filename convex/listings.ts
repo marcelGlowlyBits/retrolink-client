@@ -14,9 +14,11 @@ export const createListing = mutation({
     preferenceOfShipping: v.string(),
     payForShipping: v.optional(v.string()),
     images: v.array(v.id("_storage")),
+    userId: v.string(),
   },
   handler: async (ctx, args) => {
     await ctx.db.insert("listings", {
+      userId: args.userId,
       title: args.title,
       description: args.description,
       price: args.price,
