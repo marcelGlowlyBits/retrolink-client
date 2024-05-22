@@ -14,6 +14,7 @@ export default defineSchema({
     preferenceOfShipping: v.string(),
     payForShipping: v.optional(v.string()),
     images: v.array(v.id("_storage")),
+    userId: v.string(),
   }),
   users: defineTable({
     userId: v.string(),

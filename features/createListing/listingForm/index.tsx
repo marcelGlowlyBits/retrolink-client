@@ -10,6 +10,7 @@ import Image from "next/image";
 import Dropzone from "react-dropzone";
 
 import { Input } from "@/common/form/Input";
+import { useGetMyUser } from "@/common/hooks/useGetMyUser";
 import { Select } from "@/common/form/Select";
 import { Textarea } from "@/common/form/TextArea";
 import { RadioGroup } from "@/common/form/RadioGroup";
@@ -25,6 +26,7 @@ import styles from "./styles.module.css";
 export const CreateListingForm = () => {
   const createListing = useMutation(api.listings.createListing);
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const { user: myUser, isLoading: isAuthLoading } = useGetMyUser();
   const [images, setImages] = React.useState<File[]>([]);
 
   const form = useZodForm(listingFormSchema, {
@@ -70,7 +72,6 @@ export const CreateListingForm = () => {
       });
 
       const data = await response.json();
-      console.log(data);
       return data.storageId;
     });
 
@@ -78,9 +79,12 @@ export const CreateListingForm = () => {
   };
 
   const onSubmit = async (data: any) => {
+    if (!myUser?.userId) return null;
+
     await uploadImages()
       .then((storageIds) => {
         data.images = storageIds;
+        data.userId = myUser.userId;
 
         return createListing(data);
       })
