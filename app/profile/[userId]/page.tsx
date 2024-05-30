@@ -1,25 +1,16 @@
 "use client";
 import * as React from "react";
-import {
-  Box,
-  Heading,
-  Container,
-  Section,
-  Button,
-  Flex,
-} from "@radix-ui/themes";
+import { Box, Heading, Container, Section } from "@radix-ui/themes";
 import { useParams } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
 
 import { Fjalla } from "@/common/utils/fonts";
-// import { useToast } from "@/common/hooks/useToast";
 
 import { ProfileAccountData } from "@/features/profileOverview/profileAccountData";
 import { ProfileListingsPerUser } from "@/features/profileListingsPerUser";
 
 export default function ProfilePage() {
   const params = useParams<{ userId: Id<"users"> }>().userId;
-  // const { showToast } = useToast();
 
   return (
     <>
@@ -41,13 +32,6 @@ export default function ProfilePage() {
             >
               <ProfileAccountData userId={params} />
             </Box>
-            {/* <Button
-              onClick={() =>
-                showToast({ title: "Test", description: "Dit is een test" })
-              }
-            >
-              Test
-            </Button> */}
           </Container>
         </Section>
 
@@ -58,17 +42,7 @@ export default function ProfilePage() {
                 Advertenties
               </Heading>
             </Box>
-            <ProfileListingsPerUser />
-            {/* <Box
-              p='5'
-              style={{
-                backgroundColor: "white",
-                borderRadius: "var(--radius-3)",
-                boxShadow: "var(--shadow-3",
-              }}
-            >
-              
-            </Box> */}
+            <ProfileListingsPerUser userId={params} />
           </Container>
         </Section>
       </Box>
