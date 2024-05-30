@@ -18,6 +18,8 @@ import { Button, Flex } from "@radix-ui/themes";
 import { PlatformOptions } from "@/common/utils/platformOptions";
 import { CategoryOptions } from "@/common/utils/categoryOptions";
 import { ConditionOptions } from "@/common/utils/conditionOptions";
+import { PreferenceOfShippingOptions } from "@/common/utils/preferenceOfShippingOptions";
+
 import { useZodForm } from "@/common/hooks/useZodForm";
 
 import { listingFormSchema } from "./schema";
@@ -236,20 +238,7 @@ export const CreateListingForm = () => {
                 {...field}
                 label='Voorkeur van verzending/afhalen'
                 defaultValue={form.formState.defaultValues!.payForShipping}
-                items={[
-                  {
-                    label: "Koper moet het product komen ophalen.",
-                    value: "PICKUP",
-                  },
-                  {
-                    label: "Product wordt verzonden naar de koper.",
-                    value: "SEND",
-                  },
-                  {
-                    label: "Ophalen en verzenden is beide mogelijk.",
-                    value: "BOTH",
-                  },
-                ]}
+                items={PreferenceOfShippingOptions}
               />
             )}
           />

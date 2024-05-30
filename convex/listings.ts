@@ -1,5 +1,6 @@
-import { mutation, query } from "./_generated/server";
+import { mutation, query, QueryCtx } from "./_generated/server";
 import { v } from "convex/values";
+import { Doc } from "./_generated/dataModel";
 
 export const createListing = mutation({
   args: {
@@ -37,5 +38,29 @@ export const createListing = mutation({
 export const getListings = query({
   handler: async (ctx) => {
     return await ctx.db.query("listings").collect();
+  },
+});
+
+async function attachUrlToThumbnail(ctx: QueryCtx, listing: Doc<"listings">) {
+  return {
+    ...listing,
+    urls: await Promise.all(
+      listing.images.map((image) => ctx.storage.getUrl(image)),
+    ),
+  };
+}
+
+export const getListingsPerUser = query({
+  args: { userId: v.string() },
+  handler: async (ctx, args) => {
+    console.log("args", args);
+    const listings = await ctx.db
+      .query("listings")
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .collect();
+
+    return await Promise.all(
+      listings.map((listing) => attachUrlToThumbnail(ctx, listing)),
+    );
   },
 });
