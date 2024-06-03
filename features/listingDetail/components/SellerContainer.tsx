@@ -1,7 +1,8 @@
 "use client";
-import { Box, Flex, Heading, DataList, Avatar } from "@radix-ui/themes";
+import { Box, Flex, DataList, Avatar } from "@radix-ui/themes";
+import { Heading } from "@/common/typography";
+
 import { Id } from "@/convex/_generated/dataModel";
-import { Fjalla } from "@/common/utils/fonts";
 import { useGetUserProfile } from "@/common/hooks/useGetUserProfile";
 
 export const SellerContainer = ({ sellerId }: { sellerId: Id<"users"> }) => {
@@ -19,7 +20,7 @@ export const SellerContainer = ({ sellerId }: { sellerId: Id<"users"> }) => {
       }}
     >
       <Flex direction='column' gap='6'>
-        <Heading className={Fjalla.className} as='h2' size='6'>
+        <Heading as='h2' size='6'>
           Verkoper
         </Heading>
         <Avatar

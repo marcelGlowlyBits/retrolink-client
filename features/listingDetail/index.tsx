@@ -1,8 +1,7 @@
 "use client";
-import { Box, Heading, Container, Flex, Link } from "@radix-ui/themes";
+import { Box, Container, Flex, Link } from "@radix-ui/themes";
 
-import { Fjalla } from "@/common/utils/fonts";
-
+import { Heading } from "@/common/typography";
 import { ImageContainer } from "./components/ImageContainer";
 import { SellerContainer } from "./components/SellerContainer";
 import { GeneralInformationContainer } from "./components/GeneralInformationContainer";
@@ -16,10 +15,10 @@ export const ListingDetail = ({ listing }: any) => {
         <Link href='/advertenties'>Terug naar advertenties</Link>
 
         <Flex mt='4' direction='row' justify='between'>
-          <Heading mb='5' className={Fjalla.className} size='8' as='h1'>
+          <Heading mb='5' size='8' as='h1'>
             {listing.title}
           </Heading>
-          <Heading mb='5' className={Fjalla.className} size='8' as='h1'>
+          <Heading mb='5' size='8' as='h1'>
             €{listing.price}
           </Heading>
         </Flex>

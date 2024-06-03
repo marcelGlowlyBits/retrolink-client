@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Box, Heading, Container, Section } from "@radix-ui/themes";
-
-import { Fjalla } from "@/common/utils/fonts";
+import { Box, Container, Section } from "@radix-ui/themes";
+import { Heading } from "@/common/typography";
 
 import { ListingOverview } from "@/features/listingOverview";
 
@@ -14,7 +13,7 @@ export default function ListingsOverview() {
       <Section p='9'>
         <Container>
           <Box p='5'>
-            <Heading mb='5' className={Fjalla.className} size='7' as='h1'>
+            <Heading mb='5' size='7' as='h1'>
               Alle advertenties
             </Heading>
           </Box>

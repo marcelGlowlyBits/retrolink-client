@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text, Section, DataList } from "@radix-ui/themes";
+import { Box, Flex, Text, Section, DataList } from "@radix-ui/themes";
 
 import {
   CategoryMapper,
@@ -7,7 +7,7 @@ import {
   ConditionOptionsMapper,
   PayForShippingOptionsMapper,
 } from "@/common/utils/mappers";
-import { Fjalla } from "@/common/utils/fonts";
+import { Heading } from "@/common/typography";
 
 export const GeneralInformationContainer = ({ listing }: { listing: any }) => {
   return (
@@ -20,11 +20,11 @@ export const GeneralInformationContainer = ({ listing }: { listing: any }) => {
       }}
     >
       <Flex direction='column' gap='6'>
-        <Heading className={Fjalla.className} as='h2' size='6'>
+        <Heading as='h2' size='6'>
           Algemene informatie
         </Heading>
         <Section mt='0' p='0'>
-          <Heading mb='2' className={Fjalla.className} as='h3' size='4'>
+          <Heading mb='2' as='h3' size='4'>
             Beschrijving
           </Heading>
           <Text>{listing.description}</Text>
