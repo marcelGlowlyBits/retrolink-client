@@ -1,5 +1,5 @@
-import { Box, Heading, Container, Section } from "@radix-ui/themes";
-import { Fjalla } from "@/common/utils/fonts";
+import { Box, Container, Section } from "@radix-ui/themes";
+import { Heading } from "@/common/typography";
 
 import { CreateListingForm } from "@/features/createListing";
 
@@ -16,9 +16,7 @@ export default function CreateListing() {
               boxShadow: "var(--shadow-3",
             }}
           >
-            <Heading mb='5' className={Fjalla.className} size='7' as='h1'>
-              Advertentie aanmaken
-            </Heading>
+            <Heading>Advertentie aanmaken</Heading>
             <CreateListingForm />
           </Box>
         </Container>

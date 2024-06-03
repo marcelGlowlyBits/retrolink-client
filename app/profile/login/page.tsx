@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { Fjalla } from "@/common/utils/fonts";
-import { Box, Heading, Container, Section } from "@radix-ui/themes";
+import { Box, Container, Section } from "@radix-ui/themes";
+import { Heading } from "@/common/typography";
 
 export default function LoginPage() {
   return (
@@ -16,7 +16,7 @@ export default function LoginPage() {
               boxShadow: "var(--shadow-3",
             }}
           >
-            <Heading className={Fjalla.className} mb='5' size='7' as='h1'>
+            <Heading mb='5' size='7' as='h1'>
               Inloggen
             </Heading>
             {/* Login form will be added here */}

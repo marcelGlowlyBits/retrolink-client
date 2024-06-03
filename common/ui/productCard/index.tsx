@@ -1,15 +1,8 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Text,
-  Box,
-  Card,
-  Inset,
-  Flex,
-  Heading,
-  Button,
-} from "@radix-ui/themes";
+import { Text, Box, Card, Inset, Flex, Button } from "@radix-ui/themes";
+import { Heading } from "@/common/typography";
 
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";

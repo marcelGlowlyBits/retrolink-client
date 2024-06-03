@@ -1,10 +1,9 @@
 "use client";
 import * as React from "react";
-import { Box, Heading, Container, Section } from "@radix-ui/themes";
+import { Box, Container, Section } from "@radix-ui/themes";
+import { Heading } from "@/common/typography";
 import { useParams } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
-
-import { Fjalla } from "@/common/utils/fonts";
 
 import { ProfileAccountData } from "@/features/profileOverview/profileAccountData";
 import { ProfileListingsPerUser } from "@/features/profileListingsPerUser";
@@ -18,7 +17,7 @@ export default function ProfilePage() {
         <Section p={{ initial: "5", sm: "9" }} style={{ paddingBottom: 0 }}>
           <Container>
             <Box pt='5' pr='5' pb='5' pl='0'>
-              <Heading mb='5' className={Fjalla.className} size='7' as='h1'>
+              <Heading mb='5' size='7' as='h1'>
                 Profiel
               </Heading>
             </Box>
@@ -38,7 +37,7 @@ export default function ProfilePage() {
         <Section p={{ initial: "5", sm: "9" }}>
           <Container>
             <Box p='5' pr='5' pb='5' pl='0'>
-              <Heading mb='5' className={Fjalla.className} size='7' as='h1'>
+              <Heading mb='5' size='7' as='h1'>
                 Advertenties
               </Heading>
             </Box>
