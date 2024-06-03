@@ -1,24 +1,25 @@
-"use client"
+"use client";
 
-import { Spinner, Flex } from '@radix-ui/themes';
+import { Spinner, Flex } from "@radix-ui/themes";
 
-import { ListingCard } from '@/common/ui/listingCard';
+import { ProductCard } from "@/common/ui";
 
-import { IListing } from '@/common/types/listings';
+import { IListing } from "@/common/types/listings";
 
-export const ListingList = ({ isLoading, listings}: { isLoading: boolean, listings: IListing[] }) => {
-    return (
-        <Spinner size="3" loading={isLoading}>
-            <Flex direction="column" gap="4">
-            {listings?.map((listing) => {
-                return (
-                    <ListingCard
-                        key={listing._id}
-                        {...{ ...listing }}
-                    />
-                )
-            })}
-            </Flex>
-        </Spinner>
-    )
-}
+export const ListingList = ({
+  isLoading,
+  listings,
+}: {
+  isLoading: boolean;
+  listings: IListing[];
+}) => {
+  return (
+    <Spinner size='3' loading={isLoading}>
+      <Flex direction='column' gap='4'>
+        {listings?.map((listing: any, index: number) => {
+          return <ProductCard variant='row' listing={listing} key={index} />;
+        })}
+      </Flex>
+    </Spinner>
+  );
+};

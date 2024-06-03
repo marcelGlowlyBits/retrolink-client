@@ -1,5 +1,6 @@
 import { mutation, query, QueryCtx } from "./_generated/server";
-import { v } from "convex/values";
+import { authMutation } from "./util";
+import { v, ConvexError } from "convex/values";
 import { Doc } from "./_generated/dataModel";
 
 export const createListing = mutation({
@@ -35,12 +36,6 @@ export const createListing = mutation({
   },
 });
 
-export const getListings = query({
-  handler: async (ctx) => {
-    return await ctx.db.query("listings").collect();
-  },
-});
-
 async function attachUrlToThumbnail(ctx: QueryCtx, listing: Doc<"listings">) {
   return {
     ...listing,
@@ -50,10 +45,19 @@ async function attachUrlToThumbnail(ctx: QueryCtx, listing: Doc<"listings">) {
   };
 }
 
+export const getListings = query({
+  handler: async (ctx) => {
+    const listings = await ctx.db.query("listings").collect();
+
+    return await Promise.all(
+      listings.map((listing) => attachUrlToThumbnail(ctx, listing)),
+    );
+  },
+});
+
 export const getListingsPerUser = query({
   args: { userId: v.string() },
   handler: async (ctx, args) => {
-    console.log("args", args);
     const listings = await ctx.db
       .query("listings")
       .filter((q) => q.eq(q.field("userId"), args.userId))
@@ -62,5 +66,33 @@ export const getListingsPerUser = query({
     return await Promise.all(
       listings.map((listing) => attachUrlToThumbnail(ctx, listing)),
     );
+  },
+});
+
+export const getListingById = query({
+  args: { listingId: v.string() },
+  handler: async (ctx, args) => {
+    const listing = await ctx.db
+      .query("listings")
+      .filter((q) => q.eq(q.field("_id"), args.listingId))
+      .collect();
+
+    return await attachUrlToThumbnail(ctx, listing[0]);
+  },
+});
+
+export const deleteListingById = authMutation({
+  args: { listingId: v.id("listings") },
+  handler: async (ctx, args) => {
+    const listing = await ctx.db.get(args.listingId);
+
+    if (!listing) {
+      throw new ConvexError("Listing not found");
+    }
+
+    const images = listing.images;
+    await Promise.all(images.map((image) => ctx.storage.delete(image)));
+
+    await ctx.db.delete(args.listingId);
   },
 });
