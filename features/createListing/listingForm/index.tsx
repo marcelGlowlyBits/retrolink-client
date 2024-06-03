@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
 import { Controller } from "react-hook-form";
+import { Button, Flex } from "@radix-ui/themes";
 
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -14,11 +15,11 @@ import { useGetMyUser } from "@/common/hooks/useGetMyUser";
 import { Select } from "@/common/form/Select";
 import { Textarea } from "@/common/form/TextArea";
 import { RadioGroup } from "@/common/form/RadioGroup";
-import { Button, Flex } from "@radix-ui/themes";
 import { PlatformOptions } from "@/common/utils/platformOptions";
 import { CategoryOptions } from "@/common/utils/categoryOptions";
 import { ConditionOptions } from "@/common/utils/conditionOptions";
 import { PreferenceOfShippingOptions } from "@/common/utils/preferenceOfShippingOptions";
+import { PayForShippingOptions } from "@/common/utils/payForShippingOptions";
 
 import { useZodForm } from "@/common/hooks/useZodForm";
 
@@ -28,7 +29,7 @@ import styles from "./styles.module.css";
 export const CreateListingForm = () => {
   const createListing = useMutation(api.listings.createListing);
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
-  const { user: myUser, isLoading: isAuthLoading } = useGetMyUser();
+  const { user: myUser } = useGetMyUser();
   const [images, setImages] = React.useState<File[]>([]);
 
   const form = useZodForm(listingFormSchema, {
@@ -252,10 +253,7 @@ export const CreateListingForm = () => {
                   {...field}
                   label='Wie betaalt de verzendkosten?'
                   defaultValue={form.formState.defaultValues!.payForShipping}
-                  items={[
-                    { label: "Verkoper", value: "SELLER" },
-                    { label: "Koper", value: "BUYER" },
-                  ]}
+                  items={PayForShippingOptions}
                 />
               )}
             />

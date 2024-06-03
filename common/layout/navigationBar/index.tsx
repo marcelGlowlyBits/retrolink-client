@@ -2,7 +2,7 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Flex, Container, Button } from "@radix-ui/themes";
+import { Box, Flex, Container, Button, Text } from "@radix-ui/themes";
 import { SignInButton } from "@clerk/clerk-react";
 import { useGetMyUser } from "@/common/hooks/useGetMyUser";
 
@@ -20,6 +20,9 @@ export const NavigationBar = () => {
           <Image src={RetrolinkLogo} height={40} alt='Retrolink logo' />
 
           <Flex direction='row' gap='6' align='center'>
+            <Link href='/advertenties'>
+              <Text>Advertenties</Text>
+            </Link>
             {!isAuthenticated && !isLoading && (
               <SignInButton>
                 <Button variant='outline'>Inloggen</Button>

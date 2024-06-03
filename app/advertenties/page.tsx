@@ -7,7 +7,10 @@ import { ListingOverview } from "@/features/listingOverview";
 
 export default function ListingsOverview() {
   return (
-    <Box style={{ backgroundColor: "var(--gray-a2)" }} height='100%'>
+    <Box
+      style={{ backgroundColor: "var(--gray-a2)", minHeight: "100vh" }}
+      height='100%'
+    >
       <Section p='9'>
         <Container>
           <Box p='5'>
