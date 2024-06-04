@@ -3,7 +3,6 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Box, Flex, Container, Button, Text } from "@radix-ui/themes";
-import { SignInButton } from "@clerk/clerk-react";
 import { useGetMyUser } from "@/common/hooks/useGetMyUser";
 
 import { ProfileAvatar } from "@/common/ui/profileAvatar";
@@ -24,9 +23,9 @@ export const NavigationBar = () => {
               <Text>Advertenties</Text>
             </Link>
             {!isAuthenticated && !isLoading && (
-              <SignInButton>
+              <Link href='/sign-in'>
                 <Button variant='outline'>Inloggen</Button>
-              </SignInButton>
+              </Link>
             )}
 
             {user && isAuthenticated && <ProfileAvatar user={user} />}
