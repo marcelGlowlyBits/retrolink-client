@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Text, Box, Card, Inset, Flex, Button } from "@radix-ui/themes";
 import { Heading } from "@/common/typography";
 
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+// import { useMutation } from "convex/react";
+// import { api } from "@/convex/_generated/api";
 
 import { truncateText } from "@/common/utils/truncateText";
 import { AlertDialog } from "@/common/ui/alertDialog";
@@ -27,7 +27,7 @@ export const ProductCard = ({
   showActions?: boolean;
 }) => {
   const { showToast } = useToast();
-  const deleteListing = useMutation(api.listings.deleteListingById);
+  // const deleteListing = useMutation(api.listings.deleteListingById);
   const [isOpen, setIsOpen] = React.useState(false);
   const imageUrl = listing.urls[0];
 
@@ -36,14 +36,15 @@ export const ProductCard = ({
   };
 
   const handleListingDelete = () => {
-    deleteListing({ listingId: listing._id })
-      .then((res) => {
-        console.log("res", res);
-        showToast("advertentie verwijderd");
-      })
-      .finally(() => {
-        handleDialog();
-      });
+    // @TODO: implement with supabase
+    // deleteListing({ listingId: listing._id })
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     showToast("advertentie verwijderd");
+    //   })
+    //   .finally(() => {
+    //     handleDialog();
+    //   });
   };
 
   return (

@@ -3,13 +3,12 @@ import * as React from "react";
 import { Box, Container, Section } from "@radix-ui/themes";
 import { Heading } from "@/common/typography";
 import { useParams } from "next/navigation";
-import { Id } from "@/convex/_generated/dataModel";
 
 import { ProfileAccountData } from "@/features/profileOverview/profileAccountData";
 import { ProfileListingsPerUser } from "@/features/profileListingsPerUser";
 
 export default function ProfilePage() {
-  const params = useParams<{ userId: Id<"users"> }>().userId;
+  const params = useParams<{ userId: any }>().userId;
 
   return (
     <>

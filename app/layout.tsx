@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Head from "next/head";
 import { Theme } from "@radix-ui/themes";
 import Loglib from "@loglib/tracker/react";
 
+import { NavigationBar } from "@/common/layout/navigationBar";
+
 import MainProvider from "../providers/MainProvider";
-import "./globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import "@radix-ui/themes/styles.css";
@@ -19,6 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
+      <Head>
+        <title>Retrolink - Retro gaming online Marketplace</title>
+      </Head>
       <body>
         <MainProvider>
           <Loglib
@@ -35,6 +40,7 @@ export default function RootLayout({
             scaling='110%'
             radius='medium'
           >
+            <NavigationBar />
             <main className={GeistSans.className}>{children}</main>
           </Theme>
         </MainProvider>

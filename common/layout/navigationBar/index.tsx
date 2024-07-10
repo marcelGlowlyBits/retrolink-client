@@ -1,16 +1,18 @@
-"use client";
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Box, Flex, Container, Button, Text } from "@radix-ui/themes";
-import { useGetMyUser } from "@/common/hooks/useGetMyUser";
+
+import { getMe } from "@/libs/api/me";
 
 import { ProfileAvatar } from "@/common/ui/profileAvatar";
 
 import RetrolinkLogo from "../../../public/images/Logo_bare.png";
 
-export const NavigationBar = () => {
-  const { user, isLoading, isAuthenticated } = useGetMyUser();
+export const NavigationBar = async () => {
+  const me = await getMe();
+
+  if (!me) return null;
 
   return (
     <Box p='3' style={{ boxShadow: "var(--shadow-3" }}>
@@ -22,13 +24,19 @@ export const NavigationBar = () => {
             <Link href='/advertenties'>
               <Text>Advertenties</Text>
             </Link>
-            {!isAuthenticated && !isLoading && (
+            {!me && (
               <Link href='/sign-in'>
                 <Button variant='outline'>Inloggen</Button>
               </Link>
             )}
 
-            {user && isAuthenticated && <ProfileAvatar user={user} />}
+            {me && (
+              <ProfileAvatar
+                userId={me.id}
+                email={me.email}
+                imageUrl={undefined}
+              />
+            )}
 
             <Link href='/create' passHref>
               <Button>Plaats advertentie</Button>

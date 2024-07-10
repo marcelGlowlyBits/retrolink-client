@@ -3,15 +3,13 @@ import * as React from "react";
 import { Controller } from "react-hook-form";
 import { Button, Flex } from "@radix-ui/themes";
 
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { MdEuroSymbol, MdClose } from "react-icons/md";
 import { Text, Section } from "@radix-ui/themes";
 import Image from "next/image";
 import Dropzone from "react-dropzone";
 
 import { Input } from "@/common/form/Input";
-import { useGetMyUser } from "@/common/hooks/useGetMyUser";
+
 import { Select } from "@/common/form/Select";
 import { Textarea } from "@/common/form/TextArea";
 import { RadioGroup } from "@/common/form/RadioGroup";
@@ -27,9 +25,6 @@ import { listingFormSchema } from "./schema";
 import styles from "./styles.module.css";
 
 export const CreateListingForm = () => {
-  const createListing = useMutation(api.listings.createListing);
-  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
-  const { user: myUser } = useGetMyUser();
   const [images, setImages] = React.useState<File[]>([]);
 
   const form = useZodForm(listingFormSchema, {
@@ -64,37 +59,50 @@ export const CreateListingForm = () => {
     }
   }, [form, form.register, form.unregister, canBeShipped]);
 
+  // Dus wat we doen is als volgt: 
+  // - we genereren een id voor de listing.
+  // - we uploaden de images naar de bucket. Met een folder voor de listing id.
+  // - we voegen de images toe in een array aan de listing
+  // - we voegen de listing toe aan de database.
+  // -
+  // - profit. 
+  
+
   const uploadImages = async () => {
-    const promises = images.map(async (image) => {
-      const uploadUrl = await generateUploadUrl();
+    // @TODO: implement this with supabase.
+    return null;
+    // const promises = images.map(async (image) => {
+    //   const uploadUrl = await generateUploadUrl();
 
-      const response = await fetch(uploadUrl, {
-        method: "POST",
-        headers: { "Content-Type": image!.type },
-        body: image,
-      });
+    //   const response = await fetch(uploadUrl, {
+    //     method: "POST",
+    //     headers: { "Content-Type": image!.type },
+    //     body: image,
+    //   });
 
-      const data = await response.json();
-      return data.storageId;
-    });
+    //   const data = await response.json();
+    //   return data.storageId;
+    // });
 
-    return await Promise.all(promises);
+    // return await Promise.all(promises);
   };
 
   const onSubmit = async (data: any) => {
-    if (!myUser?.userId) return null;
+    return null;
+    // if (!myUser?.userId) return null;
 
-    await uploadImages()
-      .then((storageIds) => {
-        data.images = storageIds;
-        data.userId = myUser.userId;
+    // await uploadImages()
+    //   .then((storageIds) => {
+    //     data.images = storageIds;
+    //     data.userId = myUser.userId;
 
-        return createListing(data);
-      })
-      .then(() => {
-        alert("Advertentie succesvol aangemaakt.");
-        form.reset();
-      });
+    //     // @TODO: Implementthis with supabase.
+    //     return null;
+    //   })
+    //   .then(() => {
+    //     alert("Advertentie succesvol aangemaakt.");
+    //     form.reset();
+    //   });
   };
 
   return (

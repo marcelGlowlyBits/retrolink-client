@@ -4,20 +4,24 @@ import { Flex, Text, Avatar } from "@radix-ui/themes";
 
 import styles from "./styles.module.css";
 
-export const ProfileAvatar = ({ user }: { user: any }) => {
+export const ProfileAvatar = ({
+  userId,
+  email,
+  imageUrl,
+}: {
+  userId: string;
+  email: string;
+  imageUrl?: string;
+}) => {
   return (
-    <Link
-      className={styles.Linkstyling}
-      href={`/profile/${user.userId}`}
-      passHref
-    >
+    <Link className={styles.Linkstyling} href={`/profile/${userId}`} passHref>
       <Flex gap='2' direction='row-reverse' align='center'>
-        <Text size='2'>{user.username}</Text>
+        <Text size='2'>{email}</Text>
         <Avatar
           radius='full'
           size='2'
-          src={user.image_url}
-          fallback={user?.username?.charAt(0).toUpperCase() || ""}
+          src={imageUrl}
+          fallback={email?.charAt(0).toUpperCase() || ""}
         />
       </Flex>
     </Link>
