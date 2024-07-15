@@ -1,12 +1,9 @@
+"use client";
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Text, Box, Card, Inset, Flex, Button } from "@radix-ui/themes";
 import { Heading } from "@/common/typography";
-
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-
 import { truncateText } from "@/common/utils/truncateText";
 import { AlertDialog } from "@/common/ui/alertDialog";
 import {
@@ -15,42 +12,40 @@ import {
   PreferenceOfShippingOptionsMapper,
 } from "@/common/utils/mappers";
 
-import { useToast } from "@/common/hooks/useToast";
-
 export const ProductCard = ({
   listing,
   variant = "block",
   showActions = false,
+  imageUrl,
 }: {
   listing: any;
   variant?: "block" | "row";
   showActions?: boolean;
+  imageUrl?: string;
 }) => {
-  const { showToast } = useToast();
-  const deleteListing = useMutation(api.listings.deleteListingById);
   const [isOpen, setIsOpen] = React.useState(false);
-  const imageUrl = listing.urls[0];
 
   const handleDialog = () => {
     setIsOpen(!isOpen);
   };
 
   const handleListingDelete = () => {
-    deleteListing({ listingId: listing._id })
-      .then((res) => {
-        console.log("res", res);
-        showToast("advertentie verwijderd");
-      })
-      .finally(() => {
-        handleDialog();
-      });
+    // @TODO: implement with supabase
+    // deleteListing({ listingId: listing._id })
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     showToast("advertentie verwijderd");
+    //   })
+    //   .finally(() => {
+    //     handleDialog();
+    //   });
   };
 
   return (
     <>
-      <Box maxWidth={variant === "block" ? "320px" : "100%"}>
+      <Box maxWidth={variant === "block" ? "300px" : "100%"}>
         <Link
-          href={`/advertentie/${listing._id}`}
+          href={`/advertentie/${listing.id}`}
           style={{
             textDecoration: "none",
             color: "inherit",
@@ -72,17 +67,19 @@ export const ProductCard = ({
                 side={variant === "block" ? "all" : "left"}
                 pb={variant === "block" ? "current" : "0"}
               >
-                <Image
-                  src={imageUrl}
-                  alt={listing.title}
-                  style={{
-                    objectFit: "cover",
-                    width: "100%",
-                    backgroundColor: "var(--gray-5)",
-                  }}
-                  width={600}
-                  height={220}
-                />
+                {imageUrl && (
+                  <Image
+                    src={imageUrl}
+                    alt={listing.title}
+                    style={{
+                      objectFit: "cover",
+                      width: "100%",
+                      backgroundColor: "var(--gray-5)",
+                    }}
+                    width={600}
+                    height={220}
+                  />
+                )}
               </Inset>
               <Flex direction='column' gap='1' pt='4'>
                 <Heading size='4'>{listing.title}</Heading>

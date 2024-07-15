@@ -1,11 +1,8 @@
 "use client";
 import * as React from "react";
 import { Avatar, DataList, Flex, Spinner, Button } from "@radix-ui/themes";
-import { Id } from "@/convex/_generated/dataModel";
+
 import { MdEdit, MdClose } from "react-icons/md";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { useClerk } from "@clerk/clerk-react";
 
 import { useGetUserProfile } from "@/common/hooks/useGetUserProfile";
 import { Heading } from "@/common/typography";
@@ -15,39 +12,24 @@ import { Input } from "@/common/form/Input";
 
 import { editProfileSchema } from "./schema";
 
-export const ProfileAccountData = ({ userId }: { userId: Id<"users"> }) => {
-  const { signOut } = useClerk();
+export const ProfileAccountData = ({ userId }: { userId: any }) => {
   const [editMode, setEditMode] = React.useState(false);
-  const { user, isLoading } = useGetUserProfile({ userId: userId });
-  const {
-    user: myUser,
-    isAuthenticated,
-    isLoading: isAuthLoading,
-  } = useGetMyUser();
-  const isOwner = myUser?.userId === userId;
-  const updateMyUser = useMutation(api.users.updateMyUser);
 
   const form = useZodForm(editProfileSchema, {});
 
   const onSubmit = async (data: { username: string }) => {
-    await updateMyUser(data)
-      .then(() => {
-        alert("Profiel succesvol bijgewerkt.");
-        form.reset();
-        setEditMode(false);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // @TODO: Implement this with supabase
+    return null;
   };
 
   const handleLogout = () => {
-    signOut();
+    return null;
+    // @TODO: implement this with supabase
   };
 
   return (
     <Flex direction='column' gap='6'>
-      <Spinner size='3' loading={isAuthLoading || isLoading}>
+      {/* <Spinner size='3' loading={isAuthLoading || isLoading}>
         <Button onClick={handleLogout}>Uitloggen</Button>
         {user && (
           <>
@@ -130,7 +112,7 @@ export const ProfileAccountData = ({ userId }: { userId: Id<"users"> }) => {
             </Flex>
           </>
         )}
-      </Spinner>
+      </Spinner> */}
     </Flex>
   );
 };

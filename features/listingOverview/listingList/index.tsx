@@ -1,25 +1,34 @@
-"use client";
+import { Grid } from "@radix-ui/themes";
 
-import { Spinner, Flex } from "@radix-ui/themes";
-
-import { ProductCard } from "@/common/ui";
+import { ProductCard } from "@/common/ui/productCard";
 
 import { IListing } from "@/common/types/listings";
+import { getListingCardImage } from "@/libs/api/listings";
 
-export const ListingList = ({
-  isLoading,
-  listings,
-}: {
-  isLoading: boolean;
-  listings: IListing[];
-}) => {
+export const ListingList = ({ listings }: { listings: IListing[] }) => {
   return (
-    <Spinner size='3' loading={isLoading}>
-      <Flex direction='column' gap='4'>
-        {listings?.map((listing: any, index: number) => {
+    <Grid align='center' columns='3' gap='6' width='auto'>
+      {listings?.map((listing: any, index: number) => {
+        // Here we need to fetch the url to the image
+        const images = listing?.images;
+
+        if (images && images.length > 0) {
+          const firstImage = images[0];
+
+          const imageUrl = getListingCardImage(firstImage);
+
+          return (
+            <ProductCard
+              variant='block'
+              listing={listing}
+              key={index}
+              imageUrl={imageUrl}
+            />
+          );
+        } else {
           return <ProductCard variant='row' listing={listing} key={index} />;
-        })}
-      </Flex>
-    </Spinner>
+        }
+      })}
+    </Grid>
   );
 };

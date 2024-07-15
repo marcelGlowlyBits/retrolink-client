@@ -7,7 +7,7 @@ import { SellerContainer } from "./components/SellerContainer";
 import { GeneralInformationContainer } from "./components/GeneralInformationContainer";
 
 export const ListingDetail = ({ listing }: any) => {
-  const imageUrl = listing.urls[0];
+  const imageUrl = listing.images[0];
 
   return (
     <Container>

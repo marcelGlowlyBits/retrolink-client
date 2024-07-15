@@ -1,0 +1,6 @@
+.Box {
+  background-color: "white";
+  border-radius: "var(--radius-3)";
+  box-shadow: "var(--shadow-3";
+  align-self: "center";
+}

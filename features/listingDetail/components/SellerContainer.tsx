@@ -2,13 +2,12 @@
 import { Box, Flex, DataList, Avatar } from "@radix-ui/themes";
 import { Heading } from "@/common/typography";
 
-import { Id } from "@/convex/_generated/dataModel";
 import { useGetUserProfile } from "@/common/hooks/useGetUserProfile";
 
-export const SellerContainer = ({ sellerId }: { sellerId: Id<"users"> }) => {
-  const { user, isLoading } = useGetUserProfile({ userId: sellerId });
-
-  if (isLoading) return null;
+export const SellerContainer = ({ sellerId }: { sellerId: any }) => {
+  // @TODO: Implement this with supabase
+  // @TODO: MAKE THIS COMPONENT STATELESS
+  // const { user, isLoading } = useGetUserProfile({ userId: sellerId });
 
   return (
     <Box
@@ -19,7 +18,7 @@ export const SellerContainer = ({ sellerId }: { sellerId: Id<"users"> }) => {
         boxShadow: "var(--shadow-3",
       }}
     >
-      <Flex direction='column' gap='6'>
+      {/* <Flex direction='column' gap='6'>
         <Heading as='h2' size='6'>
           Verkoper
         </Heading>
@@ -36,7 +35,7 @@ export const SellerContainer = ({ sellerId }: { sellerId: Id<"users"> }) => {
             <DataList.Value>{user.username}</DataList.Value>
           </DataList.Item>
         </DataList.Root>
-      </Flex>
+      </Flex> */}
     </Box>
   );
 };
