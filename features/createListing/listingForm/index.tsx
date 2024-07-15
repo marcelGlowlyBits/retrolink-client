@@ -9,7 +9,6 @@ import Image from "next/image";
 import Dropzone from "react-dropzone";
 
 import { Input } from "@/common/form/Input";
-
 import { Select } from "@/common/form/Select";
 import { Textarea } from "@/common/form/TextArea";
 import { RadioGroup } from "@/common/form/RadioGroup";
@@ -23,6 +22,8 @@ import { useZodForm } from "@/common/hooks/useZodForm";
 
 import { listingFormSchema } from "./schema";
 import styles from "./styles.module.css";
+
+import { createListing } from "@/libs/api/listing";
 
 export const CreateListingForm = () => {
   const [images, setImages] = React.useState<File[]>([]);
@@ -59,77 +60,53 @@ export const CreateListingForm = () => {
     }
   }, [form, form.register, form.unregister, canBeShipped]);
 
-  // Dus wat we doen is als volgt: 
-  // - we genereren een id voor de listing.
-  // - we uploaden de images naar de bucket. Met een folder voor de listing id.
-  // - we voegen de images toe in een array aan de listing
-  // - we voegen de listing toe aan de database.
-  // -
-  // - profit. 
-  
-
-  const uploadImages = async () => {
-    // @TODO: implement this with supabase.
-    return null;
-    // const promises = images.map(async (image) => {
-    //   const uploadUrl = await generateUploadUrl();
-
-    //   const response = await fetch(uploadUrl, {
-    //     method: "POST",
-    //     headers: { "Content-Type": image!.type },
-    //     body: image,
-    //   });
-
-    //   const data = await response.json();
-    //   return data.storageId;
-    // });
-
-    // return await Promise.all(promises);
-  };
-
   const onSubmit = async (data: any) => {
-    return null;
-    // if (!myUser?.userId) return null;
+    const listingData = new FormData();
 
-    // await uploadImages()
-    //   .then((storageIds) => {
-    //     data.images = storageIds;
-    //     data.userId = myUser.userId;
+    for (const key in data) {
+      listingData.append(key, data[key]);
+    }
 
-    //     // @TODO: Implementthis with supabase.
-    //     return null;
-    //   })
-    //   .then(() => {
-    //     alert("Advertentie succesvol aangemaakt.");
-    //     form.reset();
-    //   });
+    if (images.length > 0) {
+      for (const image of images) {
+        listingData.append("images", image);
+      }
+    }
+
+    await createListing(listingData)
+      .then((res) => {
+        alert(" ja manman");
+      })
+      .catch((e) => {
+        alert(e);
+      });
   };
 
   return (
-    <>
+    <Flex gap='6' direction='column'>
       <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Dropzone
+          minSize={0}
+          maxSize={5242880}
+          maxFiles={3}
+          accept={{ "image/jpeg": [], "image/png": [], "image/webp": [] }}
+          onDrop={(acceptedFiles) => {
+            setImages([...images, ...acceptedFiles]);
+          }}
+        >
+          {({ getRootProps, getInputProps }) => (
+            <section className={styles.dropzone}>
+              <Section {...getRootProps()}>
+                <input {...getInputProps()} />
+                <Text>
+                  Drag and drop afbeeldingen hier, of klik om afbeeldingen te
+                  selecteren.
+                </Text>
+              </Section>
+            </section>
+          )}
+        </Dropzone>
         <Flex direction='column' gap='5'>
-          <Dropzone
-            minSize={0}
-            maxSize={5242880}
-            maxFiles={3}
-            accept={{ "image/jpeg": [], "image/png": [], "image/webp": [] }}
-            onDrop={(acceptedFiles) => {
-              setImages([...images, ...acceptedFiles]);
-            }}
-          >
-            {({ getRootProps, getInputProps }) => (
-              <section className={styles.dropzone}>
-                <Section {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  <Text>
-                    Drag and drop afbeeldingen hier, of klik om afbeeldingen te
-                    selecteren.
-                  </Text>
-                </Section>
-              </section>
-            )}
-          </Dropzone>
           <Flex direction='row' gap='5'>
             {images.length > 0 &&
               images.map((image, index) => (
@@ -277,6 +254,6 @@ export const CreateListingForm = () => {
           </Button>
         </Flex>
       </form>
-    </>
+    </Flex>
   );
 };

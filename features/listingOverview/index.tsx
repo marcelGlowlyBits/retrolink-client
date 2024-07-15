@@ -1,13 +1,10 @@
-"use client"
+import { ListingList } from "./listingList";
+import { getListings } from "@/libs/api/listings";
 
-import { useGetListings } from "@/common/hooks/useGetListings";
+export const ListingOverview = async () => {
+  const listings = await getListings();
 
-import { ListingList } from './listingList';
+  if (!listings) return null;
 
-export const ListingOverview = () => {
-    const { isLoading, listings } = useGetListings();
-
-    return (
-        <ListingList isLoading={isLoading} listings={listings} />
-    )
-}
+  return <ListingList listings={listings} />;
+};
