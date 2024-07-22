@@ -1,41 +1,45 @@
-"use client";
-import { Box, Flex, DataList, Avatar } from "@radix-ui/themes";
-import { Heading } from "@/common/typography";
+import { Box, Flex, DataList } from '@radix-ui/themes'
+import { Heading } from '@/common/typography'
 
-import { useGetUserProfile } from "@/common/hooks/useGetUserProfile";
+import { fetchUserById } from '@/libs/api/user'
+import Link from 'next/link'
 
-export const SellerContainer = ({ sellerId }: { sellerId: any }) => {
-  // @TODO: Implement this with supabase
-  // @TODO: MAKE THIS COMPONENT STATELESS
-  // const { user, isLoading } = useGetUserProfile({ userId: sellerId });
+export const SellerContainer = async ({ sellerId }: { sellerId: any }) => {
+  const seller = await fetchUserById(sellerId)
 
   return (
     <Box
-      p='5'
+      p="5"
       style={{
-        backgroundColor: "white",
-        borderRadius: "var(--radius-3)",
-        boxShadow: "var(--shadow-3",
+        backgroundColor: 'white',
+        borderRadius: 'var(--radius-3)',
+        boxShadow: 'var(--shadow-3',
       }}
     >
-      {/* <Flex direction='column' gap='6'>
-        <Heading as='h2' size='6'>
+      <Flex direction="column" gap="6">
+        <Heading as="h2" size="6">
           Verkoper
         </Heading>
-        <Avatar
-          radius='full'
-          fallback={user?.username?.charAt(0).toUpperCase() || ""}
-          size='5'
-          src={user.image_url}
-          alt={user.username}
-        />
         <DataList.Root>
           <DataList.Item>
             <DataList.Label>Gebruikersnaam:</DataList.Label>
-            <DataList.Value>{user.username}</DataList.Value>
+            <DataList.Value>
+              {seller?.username || <i>Geen gebruikersnaam</i>}
+            </DataList.Value>
+          </DataList.Item>
+          <DataList.Item>
+            <DataList.Label>Email adres:</DataList.Label>
+            <DataList.Value>{seller?.email}</DataList.Value>
+          </DataList.Item>
+          <DataList.Item>
+            <DataList.Label>Email geverifieerd:</DataList.Label>
+            <DataList.Value>
+              {Boolean(seller?.email_verified) ? 'Ja' : 'Nee'}
+            </DataList.Value>
           </DataList.Item>
         </DataList.Root>
-      </Flex> */}
+        <Link href={`/profile/${sellerId}`}>Bekijk profiel</Link>
+      </Flex>
     </Box>
-  );
-};
+  )
+}
