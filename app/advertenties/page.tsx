@@ -9,8 +9,9 @@ export default function ListingsOverview() {
     <Box
       style={{ backgroundColor: "var(--gray-a2)", minHeight: "100vh" }}
       height='100%'
+      p={{ xs: "2", sm: "4", md: "5" }}
     >
-      <Section p='9'>
+      <Section p={{ xs: "0", sm: "4", md: "9" }}>
         <Container>
           <Box p='5'>
             <Heading mb='5' size='7' as='h1'>
@@ -18,7 +19,7 @@ export default function ListingsOverview() {
             </Heading>
           </Box>
 
-          <Box p='5'>
+          <Box p={{ xs: "2" }}>
             <ListingOverview />
           </Box>
         </Container>

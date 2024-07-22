@@ -3,6 +3,8 @@ import { createClient } from '@/libs/supabase/server';
 import { cache } from 'react';
 import { randomUUID } from 'crypto'
 
+import { getListingCardImage } from '@/libs/api/listings';
+
 export const fetchListing = cache(async(id: string) => {
   const supabase = createClient();
 
@@ -16,7 +18,25 @@ export const fetchListing = cache(async(id: string) => {
     throw new Error(error.message);
   }
 
+  if (data.images && data.images.length > 0) {
+
+    const fetchedImages = await Promise.all(
+      data.images.map(async (image: any) => {
+        const imageUrl = getListingCardImage(image);
+        return imageUrl;
+      })
+    );
+
+    return {...data, fetchedImages: fetchedImages};
+  } else { 
+    return data;
+  }
+
+
+
   return data;
+
+  // Fetch all of the images here.
 })
 
 export const createListing = async (listingData: FormData): Promise<any> => {
@@ -97,6 +117,7 @@ export const createListing = async (listingData: FormData): Promise<any> => {
     }
 
   } catch(e) {
-    throw new Error(e.message);
+    console.log('error', e);
+    throw new Error();
   }
 }

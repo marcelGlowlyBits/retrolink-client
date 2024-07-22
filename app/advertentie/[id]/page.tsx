@@ -11,8 +11,12 @@ export default async function ListingDetailPage(context: any) {
   if (!listing) return null;
 
   return (
-    <Box style={{ backgroundColor: "var(--gray-a2)" }} height='100%'>
-      <Section p='9'>
+    <Box
+      p={{ xs: "2", sm: "4", md: "5" }}
+      style={{ backgroundColor: "var(--gray-a2)" }}
+      height='100%'
+    >
+      <Section p={{ xs: "2", sm: "4", md: "9" }}>
         <ListingDetail listing={listing} />
       </Section>
     </Box>
