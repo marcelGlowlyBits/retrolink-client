@@ -1,17 +1,21 @@
 import { cache } from 'react'
 import { createClient } from '@/libs/supabase/server'
 
-export const getMe = cache(async (): Promise<any> => {
+export const fetchUserById = cache(async (id: string) => {
   const supabase = createClient()
 
   try {
-    const { data, error } = await supabase.auth.getUser()
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', id)
+      .single()
 
     if (error) {
       throw error
     }
 
-    return data.user
+    return data
   } catch (error) {
     console.error(error)
   }

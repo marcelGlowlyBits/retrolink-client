@@ -1,36 +1,36 @@
-"use client";
-import * as React from "react";
-import { Box, Flex, IconButton } from "@radix-ui/themes";
-import Image from "next/image";
-import { ArrowRightIcon, ArrowLeftIcon } from "@radix-ui/react-icons";
-import useEmblaCarousel from "embla-carousel-react";
+'use client'
+import * as React from 'react'
+import { Box, Flex, IconButton } from '@radix-ui/themes'
+import Image from 'next/image'
+import { ArrowRightIcon, ArrowLeftIcon } from '@radix-ui/react-icons'
+import useEmblaCarousel from 'embla-carousel-react'
 
-import styles from "./styles.module.css";
+import styles from './styles.module.css'
 
 export const ImageContainer = ({ images }: { images: string[] }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel();
+  const [emblaRef, emblaApi] = useEmblaCarousel()
 
   const scrollNext = React.useCallback(() => {
-    if (!emblaApi) return;
+    if (!emblaApi) return
     if (emblaApi.canScrollNext()) {
-      emblaApi.scrollNext();
+      emblaApi.scrollNext()
     } else {
-      emblaApi.scrollTo(0);
+      emblaApi.scrollTo(0)
     }
-  }, [emblaApi]);
+  }, [emblaApi])
 
   const scrollPrev = React.useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
+    if (emblaApi) emblaApi.scrollPrev()
+  }, [emblaApi])
 
   return (
-    <Box style={{ backgroundColor: "var(--gray-a2)" }}>
+    <Box style={{ backgroundColor: 'var(--gray-a2)' }}>
       <Box
-        p='5'
+        p="5"
         style={{
-          backgroundColor: "white",
-          borderRadius: "var(--radius-3)",
-          boxShadow: "var(--shadow-3",
+          backgroundColor: 'white',
+          borderRadius: 'var(--radius-3)',
+          boxShadow: 'var(--shadow-3',
         }}
       >
         {images.length > 1 ? (
@@ -41,17 +41,17 @@ export const ImageContainer = ({ images }: { images: string[] }) => {
                   <div className={styles.embla__slide} key={index}>
                     <div
                       style={{
-                        position: "relative",
-                        width: "100%",
-                        height: "100%",
+                        position: 'relative',
+                        width: '100%',
+                        height: '100%',
                       }}
                     >
                       <Image
                         src={image}
-                        alt={""}
+                        alt={''}
                         fill
                         style={{
-                          objectFit: "contain",
+                          objectFit: 'contain',
                         }}
                       />
                     </div>
@@ -59,7 +59,7 @@ export const ImageContainer = ({ images }: { images: string[] }) => {
                 ))}
               </div>
             </div>
-            <Flex direction='row' gap='3'>
+            <Flex direction="row" gap="3">
               <IconButton onClick={scrollPrev}>
                 <ArrowLeftIcon />
               </IconButton>
@@ -70,21 +70,21 @@ export const ImageContainer = ({ images }: { images: string[] }) => {
           </>
         ) : (
           <Flex
-            direction='column'
-            gap='6'
-            style={{ height: "20rem", position: "relative" }}
+            direction="column"
+            gap="6"
+            style={{ height: '20rem', position: 'relative' }}
           >
             <Image
               src={images[0]}
-              alt={""}
+              alt={''}
               fill
               style={{
-                objectFit: "contain",
+                objectFit: 'contain',
               }}
             />
           </Flex>
         )}
       </Box>
     </Box>
-  );
-};
+  )
+}
