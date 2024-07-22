@@ -6,13 +6,16 @@ import { ProfileAccountData } from '@/features/profile/profileOverview/profileAc
 import { ProfileListingsPerUser } from '@/features/profile/profileListingsPerUser'
 
 import { fetchUserById } from '@/libs/api/user'
+import { getMe } from '@/libs/api/me'
+import { getListingsByUserId } from '@/libs/api/listings'
 
 export default async function ProfilePage(context: any) {
   const userId = context.params.userId
   const user = await fetchUserById(userId)
+  const me = await getMe()
+  const listings = await getListingsByUserId(userId)
 
-  if (!user) return null
-  // @TODO: Add a check if the user is the same as the logged in user
+  const isOwner = Boolean(me?.id === user?.id)
 
   return (
     <>
@@ -32,7 +35,7 @@ export default async function ProfilePage(context: any) {
                 boxShadow: 'var(--shadow-3',
               }}
             >
-              {/* <ProfileAccountData userId={params} /> */}
+              <ProfileAccountData user={user} isOwner={isOwner || false} />
             </Box>
           </Container>
         </Section>
@@ -44,7 +47,9 @@ export default async function ProfilePage(context: any) {
                 Advertenties
               </Heading>
             </Box>
-            {/* <ProfileListingsPerUser userId={params} /> */}
+            {listings && (
+              <ProfileListingsPerUser listings={listings} isOwner={isOwner} />
+            )}
           </Container>
         </Section>
       </Box>
