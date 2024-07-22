@@ -1,27 +1,25 @@
-import { Flex, Spinner } from "@radix-ui/themes";
+import { Flex, Text } from '@radix-ui/themes'
+import { ProductCard } from '@/common/ui/productCard'
 
-import { useGetListingsPerUser } from "@/common/hooks/useGetListingsPerUser";
-import { useGetMyUser } from "@/common/hooks/useGetMyUser";
-import { ProductCard } from "@/common/ui";
-
-export const ProfileListingsPerUser = ({ userId }: { userId: any }) => {
-  // const { user, isLoading: isAuthLoading } = useGetMyUser();
-  // const { listings, isLoading } = useGetListingsPerUser({ userId });
-  // @TODO: Implement this with supabase
-
+export const ProfileListingsPerUser = ({
+  listings,
+  isOwner,
+}: {
+  listings: any
+  isOwner: boolean
+}) => {
   return (
-    <Flex direction='column' gap='6'>
-      {/* <Spinner size='3' loading={isLoading}>
-        <Flex gap='4' wrap='wrap'>
+    <Flex direction="column" gap="6">
+      {listings.length === 0 && (
+        <Text>Gebruiker heeft geen lopende advertenties.</Text>
+      )}
+      {listings.length > 0 && (
+        <Flex gap="4" wrap="wrap">
           {listings?.map((listing: any, index: number) => (
-            <ProductCard
-              key={index}
-              listing={listing}
-              showActions={Boolean(user?.userId === userId)}
-            />
+            <ProductCard key={index} listing={listing} showActions={isOwner} />
           ))}
         </Flex>
-      </Spinner> */}
+      )}
     </Flex>
-  );
-};
+  )
+}

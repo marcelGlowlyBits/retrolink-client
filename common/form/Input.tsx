@@ -1,5 +1,5 @@
-import * as React from "react";
-import { Flex, Text, TextField } from "@radix-ui/themes";
+import * as React from 'react'
+import { Flex, Text, TextField } from '@radix-ui/themes'
 
 // eslint-disable-next-line react/display-name
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -17,13 +17,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       defaultValue,
       icon,
     },
-    ref,
+    ref
   ) => (
-    <Flex direction='column' gap='2' style={{ maxHeight: "150px" }}>
+    <Flex direction="column" gap="2" style={{ maxHeight: '150px' }}>
       {label && <Text>{label}</Text>}
       <TextField.Root
-        variant='surface'
-        size='3'
+        variant="surface"
+        size="2"
         type={type}
         name={name}
         ref={ref}
@@ -37,25 +37,25 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       </TextField.Root>
       {description && (
         <Text
-          size='1'
+          size="1"
           style={{
-            color: "gray",
-            fontStyle: "italic",
+            color: 'gray',
+            fontStyle: 'italic',
           }}
         >
           {description}
         </Text>
       )}
-      {errors && <Text color='red'>{errors.message}</Text>}
+      {errors && <Text color="red">{errors.message}</Text>}
     </Flex>
-  ),
-);
+  )
+)
 
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 
 type InputProps = {
-  description: string;
-  label: string;
-  defaultValue?: string | number;
-  icon: ReactNode;
-} & ReturnType<any>;
+  description: string
+  label: string
+  defaultValue?: string | number
+  icon: ReactNode
+} & ReturnType<any>
