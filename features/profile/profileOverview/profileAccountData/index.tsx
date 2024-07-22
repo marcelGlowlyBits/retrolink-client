@@ -65,7 +65,9 @@ export const ProfileAccountData = ({
                       ) : (
                         <>
                           <DataList.Value>
-                            {user?.username || 'Geen gebruikersnaam toegevoegd'}
+                            {user?.username || (
+                              <i>Geen gebruikersnaam toegevoegd</i>
+                            )}
                           </DataList.Value>
                           <MdEdit
                             style={{ cursor: 'pointer' }}
@@ -76,7 +78,7 @@ export const ProfileAccountData = ({
                     </Flex>
                   ) : (
                     <DataList.Value>
-                      {user?.username || 'Geen gebruikersnaam toegevoegd'}
+                      {user?.username || <i>Geen gebruikersnaam toegevoegd</i>}
                     </DataList.Value>
                   )}
                 </DataList.Item>
