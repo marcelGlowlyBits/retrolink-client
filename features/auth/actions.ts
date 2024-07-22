@@ -39,6 +39,7 @@ export async function signup(prevState: FormState, data: FormData): Promise<Form
     });
 
     if (error) {
+        console.log('error', error)
         return {
             message: error.message,
         }

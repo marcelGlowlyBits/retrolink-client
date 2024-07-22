@@ -1,4 +1,3 @@
-"use client";
 import { Box, Container, Flex, Link } from "@radix-ui/themes";
 
 import { Heading } from "@/common/typography";
@@ -7,8 +6,6 @@ import { SellerContainer } from "./components/SellerContainer";
 import { GeneralInformationContainer } from "./components/GeneralInformationContainer";
 
 export const ListingDetail = ({ listing }: any) => {
-  const imageUrl = listing.images[0];
-
   return (
     <Container>
       <Box p='5' pr='5' pb='5' pl='0'>
@@ -24,7 +21,8 @@ export const ListingDetail = ({ listing }: any) => {
         </Flex>
       </Box>
       <Flex gap='6' direction='column'>
-        <ImageContainer imageUrl={imageUrl} alt={listing.title} />
+        {/* @TODO: IMplement image carousell here */}
+        <ImageContainer images={listing.fetchedImages} />
         <GeneralInformationContainer listing={listing} />
         <SellerContainer sellerId={listing.userId} />
       </Flex>

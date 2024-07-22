@@ -7,7 +7,12 @@ import { getListingCardImage } from "@/libs/api/listings";
 
 export const ListingList = ({ listings }: { listings: IListing[] }) => {
   return (
-    <Grid align='center' columns='3' gap='6' width='auto'>
+    <Grid
+      align='center'
+      columns={{ xs: "2", sm: "3" }}
+      gap={{ xs: "4", sm: "6" }}
+      width='auto'
+    >
       {listings?.map((listing: any, index: number) => {
         // Here we need to fetch the url to the image
         const images = listing?.images;
