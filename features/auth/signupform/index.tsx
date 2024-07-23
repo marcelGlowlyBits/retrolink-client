@@ -20,7 +20,6 @@ export const SignupForm = () => {
     defaultValues: {
       email: '',
       password: '',
-
       ...(state?.fields ?? {}),
     },
   })

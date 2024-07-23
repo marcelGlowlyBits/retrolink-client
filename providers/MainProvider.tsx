@@ -1,13 +1,13 @@
-"use client";
-import { type ReactNode } from "react";
+'use client'
+import { type ReactNode } from 'react'
 
-import { ToastController } from "@/controller/toastController";
+import { ToastController } from '@/controller/toastController'
 
 export default function MainProvider({ children }: { children: ReactNode }) {
   return (
     <>
       {children}
-      <ToastController id='notifications' />
+      <ToastController id="notifications" />
     </>
-  );
+  )
 }

@@ -1,16 +1,18 @@
 'use client'
 import * as React from 'react'
-import { Avatar, DataList, Flex, Spinner, Button } from '@radix-ui/themes'
+import { useFormState } from 'react-dom'
+import { Avatar, DataList, Flex, Button } from '@radix-ui/themes'
+import { Callout } from '@/common/ui/callout'
 
 import { MdEdit, MdClose } from 'react-icons/md'
 
-import { useGetUserProfile } from '@/common/hooks/useGetUserProfile'
 import { Heading } from '@/common/typography'
-import { useGetMyUser } from '@/common/hooks/useGetMyUser'
 import { useZodForm } from '@/common/hooks/useZodForm'
 import { Input } from '@/common/form/Input'
+import { useToast } from '@/common/hooks/useToast'
+import { editUsername } from '../../actions'
 
-import { editProfileSchema } from './schema'
+import { editProfileSchema as schema } from './schema'
 
 type ProfileAccountDataProps = {
   user: any
@@ -21,28 +23,55 @@ export const ProfileAccountData = ({
   user,
   isOwner,
 }: ProfileAccountDataProps) => {
+  const toast = useToast()
+  const [state, formAction] = useFormState(editUsername, {
+    message: '',
+    success: false,
+  })
   const [editMode, setEditMode] = React.useState(false)
 
-  const form = useZodForm(editProfileSchema, {
+  const formRef = React.useRef<HTMLFormElement>(null)
+  const form = useZodForm(schema, {
     defaultValues: {
       username: user?.username,
+      ...(state?.fields ?? {}),
     },
   })
 
-  const onSubmit = async (data: { username: string }) => {
-    // @TODO: Implement this with supabase
-    return null
-  }
+  React.useEffect(() => {
+    if (state.success) {
+      toast.showToast({ description: 'Username updated' })
+      setEditMode(false)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.success])
 
   return (
     <Flex direction="column" gap="6">
       {user && (
         <>
           <Heading size="5">Avatar</Heading>
-          <Avatar radius="medium" fallback="t" size="8" src={user?.image_url} />
+          <Avatar
+            radius="medium"
+            fallback={user?.username.charAt(0).toUpperCase() || ''}
+            size="8"
+            src={user?.image_url}
+          />
           <Flex direction="column" gap="4">
             <Heading size="3">Account details</Heading>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            {state?.message !== '' && !state?.issues && state.error && (
+              <Callout content={state?.message || ''} color="red" />
+            )}
+            <form
+              ref={formRef}
+              action={formAction}
+              onSubmit={(evt) => {
+                evt.preventDefault()
+                form.handleSubmit(() => {
+                  formAction(new FormData(formRef.current!))
+                })(evt)
+              }}
+            >
               <DataList.Root>
                 <DataList.Item>
                   <DataList.Label>Gebruikersnaam</DataList.Label>
