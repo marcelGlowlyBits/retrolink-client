@@ -7,8 +7,17 @@ import useIsSmallScreen from '@/common/hooks/useIsSmallScreen'
 
 import { LogoutButton } from './LogoutButton'
 
-export const NavItems = ({ isAuth, me }: { isAuth: boolean; me: any }) => {
+export const NavItems = ({
+  isAuth,
+  me,
+  user,
+}: {
+  isAuth: boolean
+  me: any
+  user: any | null
+}) => {
   const isSmallScreen = useIsSmallScreen()
+  const isUsername = user?.username || user?.email || null
 
   //   @TODO: implement responsive navigationbar
   if (isSmallScreen) return null
@@ -27,7 +36,11 @@ export const NavItems = ({ isAuth, me }: { isAuth: boolean; me: any }) => {
 
       {me && (
         <Flex direction="row" justify="center">
-          <ProfileAvatar userId={me.id} email={me.email} imageUrl={undefined} />
+          <ProfileAvatar
+            userId={me.id}
+            username={isUsername}
+            imageUrl={undefined}
+          />
           <LogoutButton />
         </Flex>
       )}

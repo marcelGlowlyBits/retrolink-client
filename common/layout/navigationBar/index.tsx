@@ -6,9 +6,11 @@ import { getMe } from '@/libs/api/me'
 
 import RetrolinkLogo from '../../../public/images/Logo_bare.png'
 import { NavItems } from './components/NavItems'
+import { fetchUserById } from '@/libs/api/user'
 
 export const NavigationBar = async () => {
   const me = await getMe()
+  const userMe = me?.id ? await fetchUserById(me.id) : null
 
   return (
     <Box p="3" style={{ boxShadow: 'var(--shadow-3' }}>
@@ -16,7 +18,7 @@ export const NavigationBar = async () => {
         <Flex direction="row" justify="between">
           <Image src={RetrolinkLogo} height={40} alt="Retrolink logo" />
           <Flex direction="row" gap="6" align="center">
-            <NavItems me={me} isAuth={Boolean(me)} />
+            <NavItems user={userMe} me={me} isAuth={Boolean(me)} />
           </Flex>
         </Flex>
       </Container>

@@ -14,7 +14,7 @@ export const ProfileListingsPerUser = ({
         <Text>Gebruiker heeft geen lopende advertenties.</Text>
       )}
       {listings.length > 0 && (
-        <Flex gap="4" wrap="wrap">
+        <Flex gap="6" wrap="wrap">
           {listings?.map((listing: any, index: number) => (
             <ProductCard key={index} listing={listing} showActions={isOwner} />
           ))}

@@ -42,7 +42,9 @@ export default function RootLayout({
             radius='medium'
           >
             <NavigationBar />
-            <main className={GeistSans.className}>{children}</main>
+            <main className={GeistSans.className}>
+              {children}
+            </main>
           </Theme>
         </MainProvider>
       </body>
