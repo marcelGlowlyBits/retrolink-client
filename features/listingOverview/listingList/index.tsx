@@ -1,4 +1,4 @@
-import { Grid } from '@radix-ui/themes'
+import { Text, Grid } from '@radix-ui/themes'
 
 import { ProductCard } from '@/common/ui/productCard'
 
@@ -13,6 +13,8 @@ export const ListingList = ({ listings }: { listings: IListing[] }) => {
       gap={{ xs: '4', sm: '4' }}
       width="auto"
     >
+      {listings.length === 0 && <Text>Geen advertenties gevonden.</Text>}
+
       {listings?.map((listing: any, index: number) => {
         // Here we need to fetch the url to the image
         const images = listing?.images

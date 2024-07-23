@@ -19,7 +19,7 @@ export default async function ProfilePage(context: any) {
 
   return (
     <>
-      <Box style={{ backgroundColor: 'var(--gray-a2)' }}>
+      <Box style={{ backgroundColor: 'var(--gray-a2)', minHeight: '100vh' }}>
         <Section p={{ initial: '5', sm: '9' }} style={{ paddingBottom: 0 }}>
           <Container>
             <Box pt="5" pr="5" pb="5" pl="0">
