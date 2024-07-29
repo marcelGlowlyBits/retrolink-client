@@ -9,5 +9,7 @@ export type IListing = {
   condition: string
   frontImage?: string
   created_at: string
+  createdAt?: string
   platform: string
+  preferenceOfShipping: string
 }

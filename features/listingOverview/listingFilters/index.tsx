@@ -128,7 +128,3 @@ export const ListingFilters = () => {
     </Box>
   )
 }
-
-// @TODO:
-// = selectbox to filter on category
-// - zo'n mooie box om de filters heen zetten.
