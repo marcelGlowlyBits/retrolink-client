@@ -21,7 +21,8 @@ export const ListingDetail = ({ listing }: any) => {
         </Flex>
       </Box>
       <Flex gap="6" direction="column">
-        <ImageContainer images={listing.fetchedImages} />
+        {listing?.images && <ImageContainer images={listing.fetchedImages} />}
+
         <GeneralInformationContainer listing={listing} />
         <SellerContainer sellerId={listing.user_id} />
       </Flex>

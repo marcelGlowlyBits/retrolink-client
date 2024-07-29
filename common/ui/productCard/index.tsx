@@ -6,6 +6,7 @@ import { Text, Box, Card, Inset, Flex, Button } from '@radix-ui/themes'
 
 import { Heading } from '@/common/typography'
 import { AlertDialog } from '@/common/ui/alertDialog'
+import placeholderImage from '../../../public/images/Logo_bare.png'
 
 import { useListingCard } from './hooks'
 
@@ -18,13 +19,15 @@ export const ProductCard = ({
   listing: any
   variant?: 'block' | 'row'
   showActions?: boolean
-  imageUrl?: string
+  imageUrl: string | undefined
 }) => {
   const { fn, content, isDialogOpen } = useListingCard({ listing })
 
+  const image = imageUrl ? imageUrl : placeholderImage
+
   return (
     <>
-      <Box maxWidth={variant === 'block' ? '300px' : '100%'}>
+      <Box>
         <Link
           href={`/advertentie/${listing.id}`}
           style={{
@@ -48,19 +51,17 @@ export const ProductCard = ({
                 side={variant === 'block' ? 'all' : 'left'}
                 pb={variant === 'block' ? 'current' : '0'}
               >
-                {imageUrl && (
-                  <Image
-                    src={imageUrl}
-                    alt={content.title}
-                    style={{
-                      objectFit: 'cover',
-                      width: '100%',
-                      backgroundColor: 'var(--gray-5)',
-                    }}
-                    width={600}
-                    height={220}
-                  />
-                )}
+                <Image
+                  src={image}
+                  alt={content.title}
+                  style={{
+                    objectFit: 'cover',
+                    width: '100%',
+                    backgroundColor: 'var(--gray-5)',
+                  }}
+                  width={600}
+                  height={220}
+                />
               </Inset>
               <Flex direction="column" gap="1" pt="4">
                 <Heading size="6">{content.title}</Heading>

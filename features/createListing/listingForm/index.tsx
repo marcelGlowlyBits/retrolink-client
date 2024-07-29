@@ -76,6 +76,7 @@ export const CreateListingForm = () => {
     await createListing(listingData)
       .then((res) => {
         // @TODO: Rond dit mooi af
+
         alert(' ja manman')
       })
       .catch((e) => {
@@ -83,13 +84,6 @@ export const CreateListingForm = () => {
         alert(e)
       })
   }
-
-  const values = form.watch()
-  const validCheck = form.formState.isValid
-
-  console.log(values)
-
-  console.log('validCheck', validCheck)
 
   return (
     <Flex gap="6" direction="column">
@@ -272,7 +266,3 @@ export const CreateListingForm = () => {
     </Flex>
   )
 }
-
-// Wat zijn de condities:
-// - isValid.
-// - als preferenceOfShipping SEND of BOTH is, dan moet payForShipping ook gevalideerd worden.

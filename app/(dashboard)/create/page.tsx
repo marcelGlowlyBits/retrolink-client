@@ -5,8 +5,12 @@ import { CreateListingForm } from '@/features/createListing'
 
 export default function CreateListing() {
   return (
-    <Box style={{ backgroundColor: 'var(--gray-a2)' }} height="100%">
-      <Section p="9">
+    <Box
+      p={{ xs: '2', sm: '4', md: '5' }}
+      style={{ backgroundColor: 'var(--gray-a2)' }}
+      height="100%"
+    >
+      <Section p={{ xs: '2', sm: '4', md: '9', lg: '9' }}>
         <Container>
           <Box
             p="5"
@@ -16,7 +20,7 @@ export default function CreateListing() {
               boxShadow: 'var(--shadow-3',
             }}
           >
-            <Heading>Advertentie aanmaken</Heading>
+            <Heading mb="4">Advertentie aanmaken</Heading>
             <CreateListingForm />
           </Box>
         </Container>

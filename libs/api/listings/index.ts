@@ -7,11 +7,24 @@ export const getListings = cache(async (): Promise<any> => {
   try {
     const { data, error } = await supabase.from('listings').select('*')
 
+    const response = data?.map((listing: any) => {
+      if (listing.images !== null && listing.images.length > 0) {
+        const firstImage = listing.images[0]
+
+        return {
+          ...listing,
+          frontImage: getListingCardImage(firstImage),
+        }
+      } else {
+        return listing
+      }
+    })
+
     if (error) {
       throw error
     }
 
-    return data
+    return response
   } catch (error) {
     console.error(error)
   }

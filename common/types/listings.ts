@@ -1,8 +1,13 @@
+// @TODO: ADD ENUMSS
+
 export type IListing = {
-    _id: number;
-    title: string;
-    description: string;
-    price: number;
-    category: string;
-    condition: string;
+  id: number
+  title: string
+  description: string
+  price: number
+  category: string
+  condition: string
+  frontImage?: string
+  created_at: string
+  platform: string
 }
