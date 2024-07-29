@@ -1,10 +1,35 @@
-import { ListingList } from "./listingList";
-import { getListings } from "@/libs/api/listings";
+'use client'
+import { useSearchParams } from 'next/navigation'
 
-export const ListingOverview = async () => {
-  const listings = await getListings();
+import { ListingList } from './listingList'
+import { IListing } from '@/common/types/listings'
+import { useFiteredListings } from './hooks/useFilteredListings'
 
-  if (!listings) return null;
+import { ListingFilters } from './listingFilters'
 
-  return <ListingList listings={listings} />;
-};
+export const ListingOverview = ({ listings }: { listings: IListing[] }) => {
+  const searchParams = useSearchParams()
+  const categoryFilter = searchParams.get('category')
+  const conditionFilter = searchParams.get('condition')
+  const platformFilter = searchParams.get('platform')
+  const dateSorting = searchParams.get('sort')
+
+  const { filteredListings } = useFiteredListings(
+    listings,
+    {
+      category: categoryFilter,
+      condition: conditionFilter,
+      platform: platformFilter,
+    },
+    {
+      date: dateSorting,
+    }
+  )
+
+  return (
+    <>
+      <ListingFilters />
+      <ListingList listings={filteredListings} />
+    </>
+  )
+}
