@@ -22,7 +22,7 @@ export default async function ProfilePage(context: any) {
       <Box style={{ backgroundColor: 'var(--gray-a2)', minHeight: '100vh' }}>
         <Section p={{ initial: '5', sm: '9' }} style={{ paddingBottom: 0 }}>
           <Container>
-            <Box pt="5" pr="5" pb="5" pl="0">
+            <Box pt="9" pr="5" pb="5" pl="0">
               <Heading mb="5" size="7" as="h1">
                 Profiel
               </Heading>
