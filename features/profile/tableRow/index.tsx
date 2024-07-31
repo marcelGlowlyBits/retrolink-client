@@ -1,5 +1,9 @@
 import { Flex, Text, Table, IconButton } from '@radix-ui/themes'
-import { Pencil1Icon, TrashIcon } from '@radix-ui/react-icons'
+import {
+  Pencil1Icon,
+  TrashIcon,
+  ArrowBottomLeftIcon,
+} from '@radix-ui/react-icons'
 
 import { AlertDialog } from '@/common/ui/alertDialog'
 import { IListing } from '@/common/types/listings'
@@ -25,6 +29,9 @@ export const TableRow = ({
         {content.platform}
       </Table.Cell>
       <Table.Cell style={{ alignContent: 'center' }}>{content.price}</Table.Cell>
+      <Table.Cell style={{ alignContent: 'center' }}>
+        {content.createdAt}
+      </Table.Cell>
 
       {isOwner && (
         <Table.Cell>

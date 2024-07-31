@@ -1,8 +1,7 @@
 'use client'
 import * as React from 'react'
-import Link from 'next/link'
+import { Link } from '@/common/ui/link'
 import { Text, Button, Flex, IconButton, Container, Box } from '@radix-ui/themes'
-import { useRouter } from 'next/navigation'
 import { HamburgerMenuIcon, Cross1Icon } from '@radix-ui/react-icons'
 import Image from 'next/image'
 
@@ -24,7 +23,6 @@ export const NavItems = ({
   const [mobileNavValue, setMobileNavValue] = React.useState('0')
   const isSmallScreen = useIsSmallScreen()
   const isUsername = user?.username || user?.email || null
-  const router = useRouter()
 
   const handleNavValue = () => {
     if (mobileNavValue === '1') return setMobileNavValue('0')
@@ -33,7 +31,6 @@ export const NavItems = ({
     }
   }
 
-  //   @TODO: implement responsive navigationbar
   if (isSmallScreen)
     return (
       <Box
@@ -54,19 +51,24 @@ export const NavItems = ({
             </IconButton>
           </Flex>
           <Container overflow="hidden" height={mobileNavValue}>
-            <Flex direction="column" gap="4">
-              <Link href="/advertenties" passHref onClick={handleNavValue}>
-                <Text>Advertenties</Text>
-              </Link>
-
-              <Link href="/create" passHref onClick={handleNavValue}>
-                <Button>Plaats advertentie</Button>
-              </Link>
+            <Flex direction="column" gap="4" align="center" pt="4">
+              <Link
+                href="/advertenties"
+                label="Advertenties"
+                onClick={handleNavValue}
+              />
+              <Link
+                href="/create"
+                label="Plaats advertentie"
+                onClick={handleNavValue}
+              />
 
               {!isAuth && (
-                <Link href="/auth/login" passHref onClick={handleNavValue}>
-                  <Button variant="outline">Inloggen</Button>
-                </Link>
+                <Link
+                  href="/auth/login"
+                  onClick={handleNavValue}
+                  label="Inloggen"
+                />
               )}
 
               {me && (
@@ -90,15 +92,9 @@ export const NavItems = ({
         <Flex direction="row" justify="between">
           <Image src={RetrolinkLogo} height={40} alt="Retrolink logo" />
           <Flex direction="row" gap="6" align="center">
-            <Link href="/advertenties">
-              <Text>Advertenties</Text>
-            </Link>
+            <Link href="/advertenties" label="Advertenties" />
 
-            {!isAuth && (
-              <Link href="/auth/login">
-                <Button variant="outline">Inloggen</Button>
-              </Link>
-            )}
+            {!isAuth && <Link href="/auth/login" label="Inloggen" as="button" />}
 
             {me && (
               <Flex direction="row" justify="center">
@@ -111,9 +107,7 @@ export const NavItems = ({
               </Flex>
             )}
 
-            <Link href="/create" passHref>
-              <Button>Plaats advertentie</Button>
-            </Link>
+            <Link href="/create" label="Plaats advertentie" as="button" />
           </Flex>
         </Flex>
       </Container>

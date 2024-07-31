@@ -38,7 +38,7 @@ export const useProfileListing = ({ listing }: { listing: IListing }) => {
   const content = {
     title: listing.title,
     price: `€${listing.price}`,
-    createdAt: new Date().toLocaleDateString(listing.createdAt),
+    createdAt: new Date(listing.created_at).toLocaleDateString('nl-NL'),
     category: CategoryMapper(listing.category),
     platform: PlatformMapper(listing.platform),
     shipping: PreferenceOfShippingOptionsMapper(listing.preferenceOfShipping),

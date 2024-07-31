@@ -34,7 +34,7 @@ export const CreateListingForm = () => {
       category: undefined,
       condition: undefined,
       platform: undefined,
-      price: 0,
+      price: undefined,
       description: '',
       hasDamage: undefined,
       preferenceOfShipping: undefined,
@@ -84,6 +84,15 @@ export const CreateListingForm = () => {
         alert(e)
       })
   }
+
+  console.log('values', form.watch())
+
+  // @TODO voor de pricing:
+  // - Prijs wordt gewoon weer strings,
+  // - implementeer een regex pattern die checkt of het een geldig bedrag is. Dus geen letters. Alleen cijfers en komma's.
+  // - bij het opslaan van de data, zet de prijs om naar een number.
+  // - de prijs wordt geconverteerd naar centen.
+  // - bij het tonen van de prijs, zet de prijs om naar een volledig bedrag. Dus 1000 wordt 10,00.
 
   return (
     <Flex gap="6" direction="column">

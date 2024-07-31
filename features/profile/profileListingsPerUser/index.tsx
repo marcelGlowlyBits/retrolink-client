@@ -26,6 +26,7 @@ export const ProfileListingsPerUser = ({
               <Table.ColumnHeaderCell>Categorie</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>Platform</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>Prijs</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell>Datum aangemaakt</Table.ColumnHeaderCell>
               {isOwner && (
                 <Table.ColumnHeaderCell>Acties</Table.ColumnHeaderCell>
               )}

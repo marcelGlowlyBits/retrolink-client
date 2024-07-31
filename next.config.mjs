@@ -4,10 +4,10 @@ const nextConfig = {
     unoptimized: true,
     remotePatterns: [
       {
-        hostname: "canny-hound-232.convex.cloud",
+        hostname: 'canny-hound-232.convex.cloud',
       },
     ],
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

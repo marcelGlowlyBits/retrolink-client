@@ -1,11 +1,12 @@
 // @ts-nocheck
 // @TODO: fix the type in this component
-import * as React from "react";
-import * as ToastPrimitive from "@radix-ui/react-toast";
-import { Text, Button } from "@radix-ui/themes";
-import { Heading } from "@/common/typography";
+import * as React from 'react'
+import * as ToastPrimitive from '@radix-ui/react-toast'
+import { Text, IconButton } from '@radix-ui/themes'
+import { Cross1Icon } from '@radix-ui/react-icons'
+import { Heading } from '@/common/typography'
 
-import styles from "./styles.module.css";
+import styles from './styles.module.css'
 
 export const Toast = ({ toast, onClose }) => {
   return (
@@ -13,11 +14,11 @@ export const Toast = ({ toast, onClose }) => {
       className={styles.ToastRoot}
       duration={toast.duration ?? 3000}
       onOpenChange={(open) => {
-        if (!open) onClose();
+        if (!open) onClose()
       }}
     >
       <ToastPrimitive.Title className={styles.ToastTitle}>
-        <Heading size='1'> {toast.title}</Heading>
+        <Heading size="3"> {toast.title}</Heading>
       </ToastPrimitive.Title>
       {toast.description ? (
         <ToastPrimitive.Description>
@@ -26,7 +27,7 @@ export const Toast = ({ toast, onClose }) => {
       ) : null}
       {toast.action ? (
         <ToastPrimitive.Action
-          altText='a'
+          altText="a"
           asChild
           className={styles.ToastAction}
         >
@@ -34,15 +35,16 @@ export const Toast = ({ toast, onClose }) => {
         </ToastPrimitive.Action>
       ) : (
         <ToastPrimitive.Close asChild>
-          <Button
+          <IconButton
             className={styles.ToastAction}
-            type='button'
-            aria-label='Close'
+            type="button"
+            aria-label="Close"
+            variant="ghost"
           >
-            X
-          </Button>
+            <Cross1Icon />
+          </IconButton>
         </ToastPrimitive.Close>
       )}
     </ToastPrimitive.Root>
-  );
-};
+  )
+}

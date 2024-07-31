@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
 import Head from 'next/head'
-import { Theme } from '@radix-ui/themes'
+
 import Loglib from '@loglib/tracker/react'
 
 import { NavigationBar } from '@/common/layout/navigationBar'
-import useIsSmallScreen from '@/common/hooks/useIsSmallScreen'
 
 import MainProvider from '../providers/MainProvider'
 import styles from './page.module.css'
@@ -27,24 +26,15 @@ export default function RootLayout({
         <title>Retrolink - Retro gaming online Marketplace</title>
       </Head>
       <body className={styles.body}>
+        <Loglib
+          config={{
+            id: 'www_retrolink',
+            consent: 'granted',
+          }}
+        />
         <MainProvider>
-          <Loglib
-            config={{
-              id: 'www_retrolink',
-              consent: 'granted',
-            }}
-          />
-          <Theme
-            accentColor="tomato"
-            grayColor="gray"
-            appearance="light"
-            panelBackground="translucent"
-            scaling="110%"
-            radius="medium"
-          >
-            <NavigationBar />
-            <main className={GeistSans.className}>{children}</main>
-          </Theme>
+          <NavigationBar />
+          <main className={GeistSans.className}>{children}</main>
         </MainProvider>
       </body>
     </html>

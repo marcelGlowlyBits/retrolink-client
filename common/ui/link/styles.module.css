@@ -1,0 +1,6 @@
+.Link {
+  color: var(--color-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s;
+}
