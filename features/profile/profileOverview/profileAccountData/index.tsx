@@ -53,7 +53,10 @@ export const ProfileAccountData = ({
           <Heading size="5">Avatar</Heading>
           <Avatar
             radius="medium"
-            fallback={user?.username.charAt(0).toUpperCase() || ''}
+            fallback={
+              user?.username?.charAt(0)?.toUpperCase() ||
+              user.email.charAt(0).toUpperCase()
+            }
             size="8"
             src={user?.image_url}
           />

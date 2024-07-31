@@ -6,7 +6,7 @@ import { Text, Box, Card, Inset, Flex, Button } from '@radix-ui/themes'
 
 import { Heading } from '@/common/typography'
 import { AlertDialog } from '@/common/ui/alertDialog'
-import placeholderImage from '../../../public/images/Logo_bare.png'
+import placeholderImage from '../../../public/images/placeholder.png'
 
 import { useListingCard } from './hooks'
 

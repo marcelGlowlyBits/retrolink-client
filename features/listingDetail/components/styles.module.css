@@ -8,3 +8,9 @@
 .embla__slide {
   flex: 0 0 100%;
 }
+
+.BackButton:hover {
+  transition: all 0.3s;
+  cursor: pointer;
+  text-decoration-line: underline;
+}
