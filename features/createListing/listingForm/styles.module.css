@@ -1,0 +1,24 @@
+.dropzone {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dropzone:hover {
+  border-color: #aaa;
+}
+
+.dropzone.active {
+  border-color: #007bff;
+}
+
+.dropzone .message {
+  font-size: 16px;
+  color: #555;
+}
+
+.dropzone .message span {
+  font-weight: bold;
+  color: #007bff;
+}
