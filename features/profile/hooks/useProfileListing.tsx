@@ -23,15 +23,62 @@ export const useProfileListing = ({ listing }: { listing: IListing }) => {
       const supabase = createClient()
       const listingId = listing.id
 
-      await supabase
-        .from('listings')
-        .delete()
-        .eq('id', listingId)
-        .then(() => {
+      // Does listing have images.
+      if (listing.images && listing.images.length > 0) {
+        // We need to first remove the images from the bucket.
+        // After that we delete the listing from the table.
+        const { data: listingImagesData, error } = await supabase.storage
+          .from('listing_images')
+          .list(listingId)
+
+        if (error || listingImagesData.length === 0) {
           fn.handleDialog()
-          toast.showToast({ description: 'Listing verwijderd' })
-          router.refresh()
-        })
+          toast.showToast({
+            title: 'Oops!',
+            description: 'Er is iets misgegaan',
+          })
+
+          return null
+        }
+
+        const files = listingImagesData.map((el) => `${listingId}/${el.name}`)
+
+        const { error: removeError } = await supabase.storage
+          .from('listing_images')
+          .remove(files)
+
+        if (removeError) {
+          fn.handleDialog()
+          toast.showToast({
+            title: 'Oops!',
+            description: 'Er is iets misgegaan',
+          })
+
+          return null
+        }
+
+        await supabase
+          .from('listings')
+          .delete()
+          .eq('id', listingId)
+          .then(() => {
+            fn.handleDialog()
+            toast.showToast({ description: 'Listing verwijderd' })
+            router.refresh()
+          })
+
+        return null
+      } else {
+        await supabase
+          .from('listings')
+          .delete()
+          .eq('id', listingId)
+          .then(() => {
+            fn.handleDialog()
+            toast.showToast({ description: 'Listing verwijderd' })
+            router.refresh()
+          })
+      }
     },
   }
 
