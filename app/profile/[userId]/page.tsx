@@ -9,7 +9,7 @@ import { fetchUserById } from '@/libs/api/user'
 import { getMe } from '@/libs/api/me'
 import { getListingsByUserId } from '@/libs/api/listings'
 
-export default async function ProfilePage(context: any) {
+export default async function ProfileUserPage(context: any) {
   const userId = context.params.userId
   const user = await fetchUserById(userId)
   const me = await getMe()
