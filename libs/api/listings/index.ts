@@ -21,6 +21,7 @@ export const getListings = cache(async (): Promise<any> => {
     })
 
     if (error) {
+      console.error(error)
       throw error
     }
 

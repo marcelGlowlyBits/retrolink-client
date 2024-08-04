@@ -6,7 +6,7 @@ export default async function ProfilePage() {
   const me = await getMe()
 
   if (!me) {
-    redirect('/login')
+    redirect('/auth/login')
   }
 
   if (me) {
