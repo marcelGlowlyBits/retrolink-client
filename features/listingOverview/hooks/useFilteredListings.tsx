@@ -12,8 +12,7 @@ export const useFiteredListings = (
   filters: FilterType,
   sort: { date: string | null }
 ) => {
-  console.log('filters', filters)
-
+  // @TODO: Refactor this to be a more maintainable solution
   return {
     filteredListings: listings
       .filter((listing) => {

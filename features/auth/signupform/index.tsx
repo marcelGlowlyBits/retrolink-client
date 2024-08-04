@@ -55,13 +55,6 @@ export const SignupForm = () => {
               placeholder="Enter your password"
               {...form.register('password')}
             />
-            {/* <Input
-              errors={form.formState.errors.password}
-              label='Username'
-              type='text'
-              placeholder='Choose a username'
-              {...form.register("username")}
-            /> */}
           </Flex>
           <Button size="4" type="submit" disabled={!form.formState.isValid}>
             Registreer account

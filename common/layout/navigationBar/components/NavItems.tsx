@@ -1,9 +1,10 @@
 'use client'
 import * as React from 'react'
 import { Link } from '@/common/ui/link'
-import { Text, Button, Flex, IconButton, Container, Box } from '@radix-ui/themes'
+import { Flex, IconButton, Container, Box } from '@radix-ui/themes'
 import { HamburgerMenuIcon, Cross1Icon } from '@radix-ui/react-icons'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 import RetrolinkLogo from '../../../../public/images/Logo_bare.png'
 import { ProfileAvatar } from '@/common/ui/profileAvatar'
@@ -23,12 +24,17 @@ export const NavItems = ({
   const [mobileNavValue, setMobileNavValue] = React.useState('0')
   const isSmallScreen = useIsSmallScreen()
   const isUsername = user?.username || user?.email || null
+  const router = useRouter()
 
   const handleNavValue = () => {
     if (mobileNavValue === '1') return setMobileNavValue('0')
     else {
       return setMobileNavValue('1')
     }
+  }
+
+  const handleNavigation = () => {
+    router.push('/')
   }
 
   if (isSmallScreen)
@@ -45,7 +51,15 @@ export const NavItems = ({
       >
         <Flex direction="column">
           <Flex direction="row" justify="between" align="center">
-            <Image src={RetrolinkLogo} height={25} alt="Retrolink logo" />
+            <Image
+              src={RetrolinkLogo}
+              height={25}
+              alt="Retrolink logo"
+              onClick={handleNavigation}
+              style={{
+                cursor: 'pointer',
+              }}
+            />
             <IconButton onClick={handleNavValue}>
               {mobileNavValue === '1' ? <Cross1Icon /> : <HamburgerMenuIcon />}
             </IconButton>
@@ -90,11 +104,26 @@ export const NavItems = ({
     <Box p="3" style={{ boxShadow: 'var(--shadow-3' }}>
       <Container>
         <Flex direction="row" justify="between">
-          <Image src={RetrolinkLogo} height={40} alt="Retrolink logo" />
+          <Image
+            src={RetrolinkLogo}
+            height={40}
+            alt="Retrolink logo"
+            onClick={handleNavigation}
+            style={{
+              cursor: 'pointer',
+            }}
+          />
           <Flex direction="row" gap="6" align="center">
             <Link href="/advertenties" label="Advertenties" />
 
-            {!isAuth && <Link href="/auth/login" label="Inloggen" as="button" />}
+            {!isAuth && (
+              <Link
+                buttonVariant="outline"
+                href="/auth/login"
+                label="Inloggen"
+                as="button"
+              />
+            )}
 
             {me && (
               <Flex direction="row" justify="center">
