@@ -92,7 +92,6 @@ export async function signup(
   })
 
   if (error) {
-    console.log('error', error)
     return {
       message: error.message,
     }
