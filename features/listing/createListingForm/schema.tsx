@@ -20,7 +20,13 @@ export const listingFormSchema = z
       .number()
       .min(1, 'Vraagprijs moet minimaal 1 euro zijn.')
       .max(12500, 'Vraagprijs mag maximaal 12500 euro zijn.'),
-    category: z.enum(['GAMES', 'CONSOLES', 'ACCESSORY', 'MERCHANDISE', 'OTHER']),
+    category: z.enum([
+      'GAMES',
+      'CONSOLES',
+      'ACCESSORIES',
+      'MERCHANDISE',
+      'OTHER',
+    ]),
     condition: z.enum(['NEW', 'USED', 'GOODASNEW']),
     platform: z.enum([
       'PLAYSTATION1',

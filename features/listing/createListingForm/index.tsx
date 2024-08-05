@@ -1,10 +1,10 @@
 'use client'
 import * as React from 'react'
 import { Controller } from 'react-hook-form'
-import { Button, Flex } from '@radix-ui/themes'
+import { Button, Flex, Text, Section, IconButton } from '@radix-ui/themes'
+import { TrashIcon } from '@radix-ui/react-icons'
 
-import { MdEuroSymbol, MdClose } from 'react-icons/md'
-import { Text, Section } from '@radix-ui/themes'
+import { MdEuroSymbol } from 'react-icons/md'
 import Image from 'next/image'
 import Dropzone from 'react-dropzone'
 
@@ -24,8 +24,10 @@ import { listingFormSchema } from './schema'
 import styles from './styles.module.css'
 
 import { createListing } from '@/libs/api/listing'
+import useIsSmallScreen from '@/common/hooks/useIsSmallScreen'
 
 export const CreateListingForm = () => {
+  const isSmallScreen = useIsSmallScreen()
   const [images, setImages] = React.useState<File[]>([])
 
   const form = useZodForm(listingFormSchema, {
@@ -75,6 +77,7 @@ export const CreateListingForm = () => {
 
     await createListing(listingData)
       .then((res) => {
+        console.log('res', res)
         // @TODO: Rond dit mooi af
 
         alert(' ja manman')
@@ -85,14 +88,15 @@ export const CreateListingForm = () => {
       })
   }
 
-  console.log('values', form.watch())
-
   // @TODO voor de pricing:
   // - Prijs wordt gewoon weer strings,
   // - implementeer een regex pattern die checkt of het een geldig bedrag is. Dus geen letters. Alleen cijfers en komma's.
   // - bij het opslaan van de data, zet de prijs om naar een number.
   // - de prijs wordt geconverteerd naar centen.
   // - bij het tonen van de prijs, zet de prijs om naar een volledig bedrag. Dus 1000 wordt 10,00.
+
+  // @TODO voor dit formulier:
+  // -
 
   return (
     <Flex gap="6" direction="column">
@@ -118,27 +122,30 @@ export const CreateListingForm = () => {
             </section>
           )}
         </Dropzone>
-        <Flex direction="column" gap="5">
-          <Flex direction="row" gap="5">
+        <Flex direction="column" gap="5" mt="5">
+          <Flex direction="row" wrap="wrap" gap="5">
             {images.length > 0 &&
               images.map((image, index) => (
-                <Flex direction="row" gap="5" key={index}>
+                <Flex direction="row" gap="2" key={index}>
                   <Image
                     src={URL.createObjectURL(image)}
-                    width={200}
-                    height={200}
+                    width={isSmallScreen ? 100 : 175}
+                    height={isSmallScreen ? 100 : 175}
                     alt="ja tis goed"
                   />
-                  <Button
-                    size="2"
+                  <IconButton
+                    size="1"
+                    style={{
+                      cursor: 'pointer',
+                    }}
                     onClick={() => {
                       const newImages = [...images]
                       newImages.splice(index, 1)
                       setImages(newImages)
                     }}
                   >
-                    <MdClose />
-                  </Button>
+                    <TrashIcon />
+                  </IconButton>
                 </Flex>
               ))}
           </Flex>
@@ -240,7 +247,7 @@ export const CreateListingForm = () => {
               <RadioGroup
                 {...field}
                 label="Voorkeur van verzending/afhalen"
-                defaultValue={form.formState.defaultValues!.payForShipping}
+                defaultValue={form.formState.defaultValues!.preferenceOfShipping}
                 items={PreferenceOfShippingOptions}
               />
             )}
@@ -264,7 +271,6 @@ export const CreateListingForm = () => {
           <Button
             size="4"
             mt="4"
-            // @TODO: Ga hier verder.
             disabled={!form.formState.isValid}
             type="submit"
           >

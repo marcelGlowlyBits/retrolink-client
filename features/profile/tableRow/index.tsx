@@ -1,9 +1,6 @@
-import { Flex, Text, Table, IconButton } from '@radix-ui/themes'
-import {
-  Pencil1Icon,
-  TrashIcon,
-  ArrowBottomLeftIcon,
-} from '@radix-ui/react-icons'
+import { Flex, Table, IconButton } from '@radix-ui/themes'
+import { Pencil1Icon, TrashIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
 
 import { AlertDialog } from '@/common/ui/alertDialog'
 import { IListing } from '@/common/types/listings'
@@ -36,9 +33,11 @@ export const TableRow = ({
       {isOwner && (
         <Table.Cell>
           <Flex direction="row" gap="2">
-            <IconButton>
-              <Pencil1Icon />
-            </IconButton>
+            <Link href={`/edit/${listing.id}`} passHref>
+              <IconButton>
+                <Pencil1Icon />
+              </IconButton>
+            </Link>
 
             <AlertDialog
               title="Adverentie verwijderen?"

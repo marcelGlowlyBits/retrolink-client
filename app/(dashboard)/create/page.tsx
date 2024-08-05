@@ -1,7 +1,7 @@
 import { Box, Container, Section } from '@radix-ui/themes'
 import { Heading } from '@/common/typography'
 
-import { CreateListingForm } from '@/features/createListing'
+import { CreateListingForm } from '@/features/listing'
 
 export default function CreateListing() {
   return (
