@@ -16,6 +16,8 @@ import { CategoryOptions } from '@/common/utils/categoryOptions'
 import { ConditionOptions } from '@/common/utils/conditionOptions'
 import { PreferenceOfShippingOptions } from '@/common/utils/preferenceOfShippingOptions'
 import { PayForShippingOptions } from '@/common/utils/payForShippingOptions'
+import { toEuros } from '@/common/utils/formatPricing'
+import { toCents } from '@/common/utils/formatPricing'
 
 import { useZodForm } from '@/common/hooks/useZodForm'
 import { listingFormSchema } from './schema'
@@ -24,13 +26,14 @@ import { editListing } from '@/libs/api/listing'
 
 export const ListingEditForm = ({ listing }: { listing: IListing }) => {
   const [isLoading, setIsLoading] = React.useState(false)
+
   const form = useZodForm(listingFormSchema, {
     defaultValues: {
       title: listing.title,
       category: listing.category,
       condition: listing.condition,
       platform: listing.platform,
-      price: listing.price,
+      price: toEuros(listing.price),
       description: listing.description,
       hasDamage: listing.hasDamage,
       damageDescription: listing.damageDescription,
@@ -67,7 +70,10 @@ export const ListingEditForm = ({ listing }: { listing: IListing }) => {
     const updatedListingData = new FormData()
 
     for (const key in data) {
-      updatedListingData.append(key, data[key])
+      updatedListingData.append(
+        key,
+        key === 'price' ? toCents(data[key]) : data[key]
+      )
     }
 
     setIsLoading(true)
@@ -138,11 +144,26 @@ export const ListingEditForm = ({ listing }: { listing: IListing }) => {
         <Input
           errors={form.formState.errors.price}
           label="Vraagprijs van het product"
-          type="number"
           icon={<MdEuroSymbol />}
           placeholder="Vraagprijs van het product in euro's"
           {...form.register('price', {
-            setValueAs: (value) => parseInt(value || 0),
+            onBlur: (e) => {
+              if (e.target.value.length === 0) {
+                return form.setValue('price', '0,00')
+              }
+
+              const formatPrice = (value: string): string => {
+                const numericValue = parseFloat(value.replace(',', '.'))
+                const formattedValue = numericValue.toFixed(2).replace('.', ',')
+                return formattedValue
+              }
+
+              const formattedValue = formatPrice(e.target.value)
+
+              e.target.value = formattedValue
+
+              form.setValue('price', formattedValue)
+            },
           })}
         />
         <Textarea
