@@ -17,6 +17,7 @@ import { CategoryOptions } from '@/common/utils/categoryOptions'
 import { ConditionOptions } from '@/common/utils/conditionOptions'
 import { PreferenceOfShippingOptions } from '@/common/utils/preferenceOfShippingOptions'
 import { PayForShippingOptions } from '@/common/utils/payForShippingOptions'
+import { toCents } from '@/common/utils/formatPricing'
 
 import { useZodForm } from '@/common/hooks/useZodForm'
 
@@ -66,7 +67,7 @@ export const CreateListingForm = () => {
     const listingData = new FormData()
 
     for (const key in data) {
-      listingData.append(key, data[key])
+      listingData.append(key, key === 'price' ? toCents(data[key]) : data[key])
     }
 
     if (images.length > 0) {
@@ -87,16 +88,6 @@ export const CreateListingForm = () => {
         alert(e)
       })
   }
-
-  // @TODO voor de pricing:
-  // - Prijs wordt gewoon weer strings,
-  // - implementeer een regex pattern die checkt of het een geldig bedrag is. Dus geen letters. Alleen cijfers en komma's.
-  // - bij het opslaan van de data, zet de prijs om naar een number.
-  // - de prijs wordt geconverteerd naar centen.
-  // - bij het tonen van de prijs, zet de prijs om naar een volledig bedrag. Dus 1000 wordt 10,00.
-
-  // @TODO voor dit formulier:
-  // -
 
   return (
     <Flex gap="6" direction="column">
@@ -198,16 +189,35 @@ export const CreateListingForm = () => {
               />
             )}
           />
+
           <Input
             errors={form.formState.errors.price}
             label="Vraagprijs van het product"
-            type="number"
             icon={<MdEuroSymbol />}
             placeholder="Vraagprijs van het product in euro's"
             {...form.register('price', {
-              setValueAs: (value) => parseInt(value || 0),
+              onBlur: (e) => {
+                if (e.target.value.length === 0) {
+                  return form.setValue('price', '0,00')
+                }
+
+                const formatPrice = (value: string): string => {
+                  const numericValue = parseFloat(value.replace(',', '.'))
+                  const formattedValue = numericValue
+                    .toFixed(2)
+                    .replace('.', ',')
+                  return formattedValue
+                }
+
+                const formattedValue = formatPrice(e.target.value)
+
+                e.target.value = formattedValue
+
+                form.setValue('price', formattedValue)
+              },
             })}
           />
+
           <Textarea
             errors={form.formState.errors.description}
             label="Beschrijving van het product."

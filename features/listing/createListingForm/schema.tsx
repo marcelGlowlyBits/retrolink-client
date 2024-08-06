@@ -16,10 +16,7 @@ export const listingFormSchema = z
         500,
         'Beschrijving van het product mag maximaal 500 karakters lang zijn.'
       ),
-    price: z
-      .number()
-      .min(1, 'Vraagprijs moet minimaal 1 euro zijn.')
-      .max(12500, 'Vraagprijs mag maximaal 12500 euro zijn.'),
+    price: z.string(),
     category: z.enum([
       'GAMES',
       'CONSOLES',

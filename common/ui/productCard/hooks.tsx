@@ -6,6 +6,7 @@ import {
   PlatformMapper,
   PreferenceOfShippingOptionsMapper,
 } from '@/common/utils/mappers'
+import { toEuros } from '@/common/utils/formatPricing'
 import { createClient } from '@/libs/supabase/client'
 import { truncateText } from '@/common/utils/truncateText'
 import { useToast } from '@/common/hooks/useToast'
@@ -35,7 +36,7 @@ export const useListingCard = ({ listing }: any) => {
 
   const content = {
     title: listing.title,
-    price: `€${listing.price}`,
+    price: toEuros(listing.price, true),
     createdAt: new Date(listing.created_at).toLocaleDateString('nl-NL'),
     category: CategoryMapper(listing.category),
     platform: PlatformMapper(listing.platform),

@@ -9,6 +9,7 @@ import {
 import { createClient } from '@/libs/supabase/client'
 import { truncateText } from '@/common/utils/truncateText'
 import { useToast } from '@/common/hooks/useToast'
+import { toEuros } from '@/common/utils/formatPricing'
 
 import { IListing } from '@/common/types/listings'
 
@@ -84,7 +85,7 @@ export const useProfileListing = ({ listing }: { listing: IListing }) => {
 
   const content = {
     title: listing.title,
-    price: `€${listing.price}`,
+    price: toEuros(listing.price, true),
     createdAt: new Date(listing.created_at).toLocaleDateString('nl-NL'),
     category: CategoryMapper(listing.category),
     platform: PlatformMapper(listing.platform),
