@@ -16,6 +16,21 @@ export const useFiltering = () => {
   const dateSorting = searchParams.get('sort')
 
   const fn = {
+    clearConditionFilter: () => {
+      const params = new URLSearchParams(searchParams)
+      params.delete('condition')
+      replace(`${pathname}?${params.toString()}`)
+    },
+    clearPlatformFilter: () => {
+      const params = new URLSearchParams(searchParams)
+      params.delete('platform')
+      replace(`${pathname}?${params.toString()}`)
+    },
+    clearCategoryFilter: () => {
+      const params = new URLSearchParams(searchParams)
+      params.delete('category')
+      replace(`${pathname}?${params.toString()}`)
+    },
     handleCategoryChange: (e: string) => {
       const value = e
       const params = new URLSearchParams(searchParams)
