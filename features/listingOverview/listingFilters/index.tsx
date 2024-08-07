@@ -13,65 +13,10 @@ import useIsSmallScreen from '@/common/hooks/useIsSmallScreen'
 
 import { MobileListingFilters } from '../mobileListingFilters'
 
-export const ListingFilters = () => {
+export const ListingFilters = ({ fn, filters, sorting }: any) => {
   const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const { replace } = useRouter()
 
   const isSmallScreen = useIsSmallScreen()
-
-  // @TODO: Refactor all these functions to a seperate hook.
-  const handleCategoryChange = (e: string) => {
-    const value = e
-    const params = new URLSearchParams(searchParams)
-
-    if (value) {
-      params.set('category', value)
-    } else {
-      params.delete('category')
-    }
-
-    replace(`${pathname}?${params.toString()}`)
-  }
-
-  const handleConditionChange = (e: string) => {
-    const value = e
-    const params = new URLSearchParams(searchParams)
-
-    if (value) {
-      params.set('condition', value)
-    } else {
-      params.delete('condition')
-    }
-
-    replace(`${pathname}?${params.toString()}`)
-  }
-
-  const handleDateSortChange = (e: string) => {
-    const value = e
-    const params = new URLSearchParams(searchParams)
-
-    if (value) {
-      params.set('sort', value)
-    } else {
-      params.delete('sort')
-    }
-
-    replace(`${pathname}?${params.toString()}`)
-  }
-
-  const handlePlatformChange = (e: string) => {
-    const value = e
-    const params = new URLSearchParams(searchParams)
-
-    if (value) {
-      params.set('platform', value)
-    } else {
-      params.delete('platform')
-    }
-
-    replace(`${pathname}?${params.toString()}`)
-  }
 
   if (isSmallScreen) return <MobileListingFilters />
 
@@ -85,10 +30,10 @@ export const ListingFilters = () => {
                 Categorie
               </Text>
               <Select
-                defaultValue={searchParams.get('category')?.toString() || 'ALL'}
+                defaultValue={filters.category || 'ALL'}
                 items={[{ name: 'Alles', value: 'ALL' }, ...CategoryOptions]}
-                onChange={handleCategoryChange}
-                value={searchParams.get('category')?.toString() || 'ALL'}
+                onChange={fn.handleCategoryChange}
+                value={filters.category || 'ALL'}
               />
             </Flex>
             <Flex direction="column" gap="2">
@@ -96,17 +41,13 @@ export const ListingFilters = () => {
                 Staat van product
               </Text>
               <Select
-                defaultValue={
-                  searchParams.get('condition')?.toString() || 'NOPREFERENCE'
-                }
+                defaultValue={filters.condition || 'NOPREFERENCE'}
                 items={[
                   { name: 'Geen voorkeur', value: 'NOPREFERENCE' },
                   ...ConditionOptions,
                 ]}
-                onChange={handleConditionChange}
-                value={
-                  searchParams.get('condition')?.toString() || 'NOPREFERENCE'
-                }
+                onChange={fn.handleConditionChange}
+                value={filters.condition || 'NOPREFERENCE'}
               />
             </Flex>
             <Flex direction="column" gap="2">
@@ -114,10 +55,10 @@ export const ListingFilters = () => {
                 Platform
               </Text>
               <Select
-                defaultValue={searchParams.get('platform')?.toString() || 'ALL'}
+                defaultValue={filters.platform || 'ALL'}
                 items={[{ name: 'Alles', value: 'ALL' }, ...PlatformOptions]}
-                onChange={handlePlatformChange}
-                value={searchParams.get('platform')?.toString() || 'ALL'}
+                onChange={fn.handlePlatformChange}
+                value={filters.platform || 'ALL'}
               />
             </Flex>
           </Flex>
@@ -126,16 +67,14 @@ export const ListingFilters = () => {
               Sorteer op datum
             </Text>
             <Select
-              defaultValue={
-                searchParams.get('sort')?.toString() || 'NOPREFERENCE'
-              }
+              defaultValue={sorting.date || 'NOPREFERENCE'}
               items={[
                 { name: 'Geen voorkeur', value: 'NOPREFERENCE' },
                 { name: 'Oud naar nieuw', value: 'OLDTONEW' },
                 { name: 'Nieuw naar oud', value: 'NEWTOOLD' },
               ]}
-              onChange={handleDateSortChange}
-              value={searchParams.get('sort')?.toString() || 'NOPREFERENCE'}
+              onChange={fn.handleDateSortChange}
+              value={sorting.date || 'NOPREFERENCE'}
             />
           </Flex>
         </Flex>

@@ -1,10 +1,15 @@
 import { IListing } from '@/common/types/listings'
+import {
+  ICategoryFilter,
+  IConditionFilter,
+  IPLatformFilter,
+} from '@/common/types/listings'
 
 // @TODO: Category moet een enum zijn van de categoryMapper
 type FilterType = {
-  category: string | null
-  condition: string | null
-  platform: string | null
+  category: ICategoryFilter
+  condition: IConditionFilter
+  platform: IPLatformFilter
 }
 
 export const useFiteredListings = (

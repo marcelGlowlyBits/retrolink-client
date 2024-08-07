@@ -1,5 +1,3 @@
-// @TODO: ADD ENUMSS
-
 export type IListing = {
   title: string
   description: string
@@ -28,7 +26,10 @@ export type ICategory =
   | 'MERCHANDISE'
   | 'OTHER'
 
+export type ICategoryFilter = (ICategory & 'ALL') | null
+
 export type ICondition = 'NEW' | 'USED' | 'GOODASNEW'
+export type IConditionFilter = (ICondition & 'NOPREFERENCE') | null
 export type IPlatform =
   | 'PLAYSTATION1'
   | 'PLAYSTATION2'
@@ -49,3 +50,4 @@ export type IPlatform =
   | 'SWITCH'
   | 'PC'
   | 'OTHER'
+export type IPLatformFilter = (IPlatform & 'ALL') | null
