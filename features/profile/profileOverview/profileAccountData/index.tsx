@@ -75,7 +75,9 @@ export const ProfileAccountData = ({
                 })(evt)
               }}
             >
-              <DataList.Root>
+              <DataList.Root
+                orientation={{ initial: 'vertical', sm: 'horizontal' }}
+              >
                 <DataList.Item>
                   <DataList.Label>Gebruikersnaam</DataList.Label>
                   {isOwner ? (

@@ -10,7 +10,6 @@ import {
 export const FilterButtons = ({ filters, fn }: any) => {
   return (
     <Flex direction="row" gap="4">
-      <Text>Actieve filters</Text>
       {filters.category && (
         <Button variant="ghost" onClick={fn.clearCategoryFilter}>
           <Cross1Icon />

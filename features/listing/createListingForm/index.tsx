@@ -110,13 +110,6 @@ export const CreateListingForm = () => {
       })
   }
 
-  const handleDialog = () => {
-    dialog.openDialog({
-      title: 'Advertentie aanmaken',
-      description: 'Even ged  we zijn je advertentie aan het aanmaken.',
-    })
-  }
-
   return (
     <Flex gap="6" direction="column">
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -316,7 +309,6 @@ export const CreateListingForm = () => {
           </Button>
         </Flex>
       </form>
-      <Button onClick={handleDialog}>Tets dialog</Button>
     </Flex>
   )
 }
