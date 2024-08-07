@@ -1,4 +1,6 @@
-import { Box, Flex, Text, Section, DataList } from "@radix-ui/themes";
+import { Box, Flex, Text, Section, DataList } from '@radix-ui/themes'
+
+import { Heading } from '@/common/typography'
 
 import {
   CategoryMapper,
@@ -6,25 +8,31 @@ import {
   PreferenceOfShippingOptionsMapper,
   ConditionOptionsMapper,
   PayForShippingOptionsMapper,
-} from "@/common/utils/mappers";
-import { Heading } from "@/common/typography";
+} from '@/common/utils/mappers'
 
-export const GeneralInformationContainer = ({ listing }: { listing: any }) => {
+import { IListing } from '@/common/types/listings'
+
+export const GeneralInformationContainer = ({
+  listing,
+}: {
+  listing: IListing
+}) => {
+  console.log('listing', listing)
   return (
     <Box
-      p='5'
+      p="5"
       style={{
-        backgroundColor: "white",
-        borderRadius: "var(--radius-3)",
-        boxShadow: "var(--shadow-3",
+        backgroundColor: 'white',
+        borderRadius: 'var(--radius-3)',
+        boxShadow: 'var(--shadow-3',
       }}
     >
-      <Flex direction='column' gap='6'>
-        <Heading as='h2' size='6'>
+      <Flex direction="column" gap="6">
+        <Heading as="h2" size="6">
           Algemene informatie
         </Heading>
-        <Section mt='0' p='0'>
-          <Heading mb='2' as='h3' size='4'>
+        <Section mt="0" p="0">
+          <Heading mb="2" as="h3" size="4">
             Beschrijving
           </Heading>
           <Text>{listing.description}</Text>
@@ -60,8 +68,8 @@ export const GeneralInformationContainer = ({ listing }: { listing: any }) => {
             <DataList.Label>Heeft het product schade:</DataList.Label>
             <DataList.Value>
               {listing.hasDamage
-                ? "Product heeft schade"
-                : "Product heeft geen schade"}
+                ? 'Product heeft schade'
+                : 'Product heeft geen schade'}
             </DataList.Value>
           </DataList.Item>
           {listing.hasDamage && (
@@ -73,5 +81,5 @@ export const GeneralInformationContainer = ({ listing }: { listing: any }) => {
         </DataList.Root>
       </Flex>
     </Box>
-  );
-};
+  )
+}

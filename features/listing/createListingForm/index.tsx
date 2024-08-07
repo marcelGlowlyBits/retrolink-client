@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react'
 import { Controller } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 import { Button, Flex, Text, Section, IconButton } from '@radix-ui/themes'
 import { TrashIcon } from '@radix-ui/react-icons'
 
@@ -19,6 +20,7 @@ import { PreferenceOfShippingOptions } from '@/common/utils/preferenceOfShipping
 import { PayForShippingOptions } from '@/common/utils/payForShippingOptions'
 import { toCents } from '@/common/utils/formatPricing'
 
+import { useDialog } from '@/common/hooks/useDialog'
 import { useZodForm } from '@/common/hooks/useZodForm'
 
 import { listingFormSchema } from './schema'
@@ -26,8 +28,12 @@ import styles from './styles.module.css'
 
 import { createListing } from '@/libs/api/listing'
 import useIsSmallScreen from '@/common/hooks/useIsSmallScreen'
+import { useToast } from '@/common/hooks/useToast'
 
 export const CreateListingForm = () => {
+  const router = useRouter()
+  const dialog = useDialog()
+  const toast = useToast()
   const isSmallScreen = useIsSmallScreen()
   const [images, setImages] = React.useState<File[]>([])
 
@@ -64,6 +70,11 @@ export const CreateListingForm = () => {
   }, [form, form.register, form.unregister, canBeShipped])
 
   const onSubmit = async (data: any) => {
+    dialog.openDialog({
+      title: 'Advertentie aanmaken',
+      description: 'Even geduld, we zijn je advertentie aan het aanmaken.',
+    })
+
     const listingData = new FormData()
 
     for (const key in data) {
@@ -78,15 +89,32 @@ export const CreateListingForm = () => {
 
     await createListing(listingData)
       .then((res) => {
-        console.log('res', res)
-        // @TODO: Rond dit mooi af
+        toast.showToast({
+          title: 'Advertentie aangemaakt',
+          description: 'Je advertentie is succesvol aangemaakt.',
+        })
 
-        alert(' ja manman')
+        router.push(`/advertentie/${res.data.id}`)
       })
       .catch((e) => {
-        // @TODO: Rond dit mooi af
-        alert(e)
+        console.error(e)
+
+        toast.showToast({
+          title: 'Er is iets misgegaan',
+          description:
+            'Er is iets misgegaan bij het aanmaken van de advertentie.',
+        })
       })
+      .finally(() => {
+        dialog.closeDialog()
+      })
+  }
+
+  const handleDialog = () => {
+    dialog.openDialog({
+      title: 'Advertentie aanmaken',
+      description: 'Even ged  we zijn je advertentie aan het aanmaken.',
+    })
   }
 
   return (
@@ -288,6 +316,7 @@ export const CreateListingForm = () => {
           </Button>
         </Flex>
       </form>
+      <Button onClick={handleDialog}>Tets dialog</Button>
     </Flex>
   )
 }

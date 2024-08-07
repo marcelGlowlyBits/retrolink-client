@@ -7,8 +7,6 @@ import { fetchListing } from '@/libs/api/listing'
 import { getMe } from '@/libs/api/me'
 import { ListingEditForm } from '@/features/listing'
 
-// TODO: Implement EditListingForm
-
 export default async function EditListing(context: any) {
   const listingId = context.params.listingId
 

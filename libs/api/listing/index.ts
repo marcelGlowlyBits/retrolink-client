@@ -42,9 +42,10 @@ export const editListing = async (
   const supabase = createClient()
   const identify = await supabase.auth.getUser()
   const userId = identify?.data?.user?.id
-  // user must be owner of the listing
   const isOwner = Boolean(userId === metaData.owner)
   const formData = Object.fromEntries(listingData)
+
+  // @TODO: Refactor this to be a proper response
 
   if (!identify || !userId) {
     throw new Error('User not authenticated')
@@ -55,24 +56,25 @@ export const editListing = async (
   }
 
   try {
-    const { data, error } = await supabase
+    const { data: listingResponse, error } = await supabase
       .from('listings')
       .update(formData)
       .eq('id', metaData.listingId)
+      .select('*')
+      .single()
 
     if (error) {
       console.log('error', error)
       throw new Error(error.message)
     }
 
-    console.log('data', data)
+    return {
+      response: 'Listing edited successfully',
+      data: listingResponse,
+    }
   } catch (e) {
     console.log('error', e)
     throw new Error()
-  }
-
-  return {
-    response: 'Listing edited successfully',
   }
 }
 
@@ -120,9 +122,11 @@ export const createListing = async (listingData: FormData): Promise<any> => {
         user_id: userId,
       }
 
-      const { error } = await supabase
+      const { data: listingResponse, error } = await supabase
         .from('listings')
         .insert(completeListingData)
+        .select('*')
+        .single()
 
       if (error) {
         console.log('error', error)
@@ -131,6 +135,7 @@ export const createListing = async (listingData: FormData): Promise<any> => {
 
       return {
         response: 'Listing created successfully',
+        data: listingResponse,
       }
     } else {
       const completeListingData = {
@@ -139,9 +144,11 @@ export const createListing = async (listingData: FormData): Promise<any> => {
         user_id: userId,
       }
 
-      const { error } = await supabase
+      const { data: listingResponse, error } = await supabase
         .from('listings')
         .insert(completeListingData)
+        .select('*')
+        .single()
 
       if (error) {
         console.log('error', error)
@@ -150,6 +157,7 @@ export const createListing = async (listingData: FormData): Promise<any> => {
 
       return {
         response: 'Listing created successfully',
+        data: listingResponse,
       }
     }
   } catch (e) {

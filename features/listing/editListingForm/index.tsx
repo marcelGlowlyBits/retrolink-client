@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Controller } from 'react-hook-form'
 import { Button, Flex } from '@radix-ui/themes'
 import { MdEuroSymbol } from 'react-icons/md'
+import { useRouter } from 'next/navigation'
 
 // Image Edit will be picked up in the future.
 import { Link } from '@/common/ui/link'
@@ -18,6 +19,8 @@ import { PreferenceOfShippingOptions } from '@/common/utils/preferenceOfShipping
 import { PayForShippingOptions } from '@/common/utils/payForShippingOptions'
 import { toEuros } from '@/common/utils/formatPricing'
 import { toCents } from '@/common/utils/formatPricing'
+import { useToast } from '@/common/hooks/useToast'
+import { useDialog } from '@/common/hooks/useDialog'
 
 import { useZodForm } from '@/common/hooks/useZodForm'
 import { listingFormSchema } from './schema'
@@ -25,7 +28,9 @@ import { listingFormSchema } from './schema'
 import { editListing } from '@/libs/api/listing'
 
 export const ListingEditForm = ({ listing }: { listing: IListing }) => {
-  const [isLoading, setIsLoading] = React.useState(false)
+  const router = useRouter()
+  const dialog = useDialog()
+  const toast = useToast()
 
   const form = useZodForm(listingFormSchema, {
     defaultValues: {
@@ -62,6 +67,11 @@ export const ListingEditForm = ({ listing }: { listing: IListing }) => {
   }, [form, form.register, form.unregister, canBeShipped])
 
   const onSubmit = async (data: any) => {
+    dialog.openDialog({
+      title: 'Advertentie wijzigen',
+      description: 'Even geduld, we zijn je advertentie aan het wijzigen.',
+    })
+
     const listingMetaData = {
       listingId: listing.id,
       owner: listing.user_id,
@@ -76,17 +86,26 @@ export const ListingEditForm = ({ listing }: { listing: IListing }) => {
       )
     }
 
-    setIsLoading(true)
-
     await editListing(updatedListingData, listingMetaData)
       .then((res) => {
-        // @TODO: Show dialog with loading spinner and eventually the success message.
-        // @TODO: After user presses confirm, redirect to the listing page.
-        console.log('res', res)
+        toast.showToast({
+          title: 'Advertentie gewijzigd.',
+          description: 'Je advertentie is succesvol gewijzigd.',
+        })
+
+        router.push(`/advertentie/${res.data.id}`)
       })
       .catch((e) => {
-        // @TODO: Show dialog with error message.
-        alert(e)
+        console.error(e)
+
+        toast.showToast({
+          title: 'Er is iets misgegaan',
+          description:
+            'Er is iets misgegaan bij het wijzigen van de advertentie.',
+        })
+      })
+      .finally(() => {
+        dialog.closeDialog()
       })
 
     return
@@ -228,8 +247,7 @@ export const ListingEditForm = ({ listing }: { listing: IListing }) => {
             size="4"
             disabled={
               (!form.formState.isValid && !form.formState.isDirty) ||
-              !form.formState.isDirty ||
-              isLoading
+              !form.formState.isDirty
             }
             type="submit"
           >
