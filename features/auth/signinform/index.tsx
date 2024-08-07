@@ -1,4 +1,5 @@
 'use client'
+// @TODO: Schrijf deze form om naar een volledige client side formulier. Want die server actions gedoe,... Ik weet het niet.
 import * as React from 'react'
 import { Button, Flex } from '@radix-ui/themes'
 import { useFormState } from 'react-dom'
@@ -56,8 +57,13 @@ export const SigninForm = () => {
               {...form.register('password')}
             />
           </Flex>
-          <Button size="4" type="submit" disabled={!form.formState.isValid}>
-            Log in
+          <Button
+            size="4"
+            type="submit"
+            disabled={!form.formState.isValid || form.formState.isSubmitting}
+            loading={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting ? 'Loading...' : 'Inloggen'}
           </Button>
         </Flex>
       </form>

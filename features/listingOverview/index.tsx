@@ -1,34 +1,20 @@
 'use client'
-import { useSearchParams } from 'next/navigation'
-
 import { ListingList } from './listingList'
 import { IListing } from '@/common/types/listings'
 import { useFiteredListings } from './hooks/useFilteredListings'
+import { useFiltering } from './hooks/useFiltering'
 
 import { ListingFilters } from './listingFilters'
+import { FilterButtons } from './filterButtons'
 
 export const ListingOverview = ({ listings }: { listings: IListing[] }) => {
-  const searchParams = useSearchParams()
-  const categoryFilter = searchParams.get('category')
-  const conditionFilter = searchParams.get('condition')
-  const platformFilter = searchParams.get('platform')
-  const dateSorting = searchParams.get('sort')
-
-  const { filteredListings } = useFiteredListings(
-    listings,
-    {
-      category: categoryFilter,
-      condition: conditionFilter,
-      platform: platformFilter,
-    },
-    {
-      date: dateSorting,
-    }
-  )
+  const { filters, sorting, fn } = useFiltering()
+  const { filteredListings } = useFiteredListings(listings, filters, sorting)
 
   return (
     <>
-      <ListingFilters />
+      <FilterButtons {...{ filters, fn }} />
+      <ListingFilters {...{ fn, filters, sorting }} />
       <ListingList listings={filteredListings} />
     </>
   )

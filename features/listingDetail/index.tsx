@@ -2,15 +2,20 @@ import { Box, Container, Flex } from '@radix-ui/themes'
 
 import { Heading } from '@/common/typography'
 import { toEuros } from '@/common/utils/formatPricing'
+import { IListing } from '@/common/types/listings'
 
 import { ImageContainer } from './components/ImageContainer'
 import { SellerContainer } from './components/SellerContainer'
 import { GeneralInformationContainer } from './components/GeneralInformationContainer'
 import { BackButton } from './components/BackButton'
 
-export const ListingDetail = ({ listing }: any) => {
+type ListingDetailProps = {
+  listing: IListing & { fetchedImages: string[] }
+}
+
+export const ListingDetail = ({ listing }: ListingDetailProps) => {
   return (
-    <Container>
+    <Container p="2">
       <Box p="5" pr="5" pb="5" pl="0">
         <BackButton />
 

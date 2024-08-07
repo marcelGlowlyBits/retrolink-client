@@ -37,7 +37,7 @@ export const GeneralInformationContainer = ({
           </Heading>
           <Text>{listing.description}</Text>
         </Section>
-        <DataList.Root>
+        <DataList.Root orientation={{ initial: 'vertical', sm: 'horizontal' }}>
           <DataList.Item>
             <DataList.Label>Categorie:</DataList.Label>
             <DataList.Value>{CategoryMapper(listing.category)}</DataList.Value>

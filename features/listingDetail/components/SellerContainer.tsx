@@ -20,7 +20,7 @@ export const SellerContainer = async ({ sellerId }: { sellerId: any }) => {
         <Heading as="h2" size="6">
           Verkoper
         </Heading>
-        <DataList.Root>
+        <DataList.Root orientation={{ initial: 'vertical', sm: 'horizontal' }}>
           <DataList.Item>
             <DataList.Label>Gebruikersnaam:</DataList.Label>
             <DataList.Value>

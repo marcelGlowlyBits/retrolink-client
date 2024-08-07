@@ -16,7 +16,7 @@ export default async function ListingDetailPage(context: any) {
       style={{ backgroundColor: 'var(--gray-a2)' }}
       height="100%"
     >
-      <Section p={{ xs: '2', sm: '4', md: '9' }}>
+      <Section p={{ xs: '0', sm: '4', md: '9' }}>
         <ListingDetail listing={listing} />
       </Section>
     </Box>
