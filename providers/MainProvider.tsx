@@ -3,6 +3,7 @@ import { type ReactNode } from 'react'
 import { Theme } from '@radix-ui/themes'
 
 import { ToastController } from '@/controller/toastController'
+import { DialogController } from '@/controller/dialogController'
 
 export default function MainProvider({ children }: { children: ReactNode }) {
   return (
@@ -16,6 +17,7 @@ export default function MainProvider({ children }: { children: ReactNode }) {
     >
       {children}
       <ToastController id="notifications" />
+      <DialogController id="dialogs" />
     </Theme>
   )
 }

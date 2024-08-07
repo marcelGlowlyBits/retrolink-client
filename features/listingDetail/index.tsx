@@ -1,6 +1,8 @@
 import { Box, Container, Flex } from '@radix-ui/themes'
 
 import { Heading } from '@/common/typography'
+import { toEuros } from '@/common/utils/formatPricing'
+
 import { ImageContainer } from './components/ImageContainer'
 import { SellerContainer } from './components/SellerContainer'
 import { GeneralInformationContainer } from './components/GeneralInformationContainer'
@@ -17,7 +19,7 @@ export const ListingDetail = ({ listing }: any) => {
             {listing.title}
           </Heading>
           <Heading mb="5" size="8" as="h1">
-            €{listing.price}
+            {toEuros(listing.price, true)}
           </Heading>
         </Flex>
       </Box>

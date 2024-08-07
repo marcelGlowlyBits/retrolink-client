@@ -26,7 +26,7 @@ export const Link = ({
   if (as === 'button') {
     return (
       <NextLink href={href} passHref onClick={onClick}>
-        <Button size="4" variant={buttonVariant} style={{ width: '100%' }}>
+        <Button size="2" variant={buttonVariant} style={{ width: '100%' }}>
           {label}
         </Button>
       </NextLink>
